@@ -13,6 +13,8 @@
 		1F475BD41D1F4B0600ECAB84 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F475BD21D1F4B0600ECAB84 /* Main.storyboard */; };
 		1F475BDF1D1F4B0600ECAB84 /* _CalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F475BDE1D1F4B0600ECAB84 /* _CalTests.swift */; };
 		1F475BEA1D1F4B0600ECAB84 /* _CalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F475BE91D1F4B0600ECAB84 /* _CalUITests.swift */; };
+		1F475BF81D1F4CE500ECAB84 /* switchIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F475BF71D1F4CE500ECAB84 /* switchIcon.png */; };
+		1F475C311D1F823200ECAB84 /* CalendarMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F475C301D1F823200ECAB84 /* CalendarMenuItemView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,8 @@
 		1F475BE51D1F4B0600ECAB84 /* μCalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "μCalUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F475BE91D1F4B0600ECAB84 /* _CalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _CalUITests.swift; sourceTree = "<group>"; };
 		1F475BEB1D1F4B0600ECAB84 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F475BF71D1F4CE500ECAB84 /* switchIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = switchIcon.png; sourceTree = "<group>"; };
+		1F475C301D1F823200ECAB84 /* CalendarMenuItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarMenuItemView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,10 +100,12 @@
 			isa = PBXGroup;
 			children = (
 				1F475BCC1D1F4B0500ECAB84 /* AppDelegate.swift */,
+				1F475BF71D1F4CE500ECAB84 /* switchIcon.png */,
 				1F475BCE1D1F4B0500ECAB84 /* ViewController.swift */,
 				1F475BD01D1F4B0600ECAB84 /* Assets.xcassets */,
 				1F475BD21D1F4B0600ECAB84 /* Main.storyboard */,
 				1F475BD51D1F4B0600ECAB84 /* Info.plist */,
+				1F475C301D1F823200ECAB84 /* CalendarMenuItemView.swift */,
 			);
 			path = "μCal";
 			sourceTree = "<group>";
@@ -227,6 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F475BD11D1F4B0600ECAB84 /* Assets.xcassets in Resources */,
+				1F475BF81D1F4CE500ECAB84 /* switchIcon.png in Resources */,
 				1F475BD41D1F4B0600ECAB84 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -254,6 +261,7 @@
 			files = (
 				1F475BCF1D1F4B0500ECAB84 /* ViewController.swift in Sources */,
 				1F475BCD1D1F4B0500ECAB84 /* AppDelegate.swift in Sources */,
+				1F475C311D1F823200ECAB84 /* CalendarMenuItemView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,7 +397,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "μCal/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-Cal";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jchen.uCal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -401,7 +409,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "μCal/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-Cal";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jchen.uCal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
