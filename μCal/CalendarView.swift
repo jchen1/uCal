@@ -217,6 +217,16 @@ class CalendarView: NSView {
         }
     }
     
+    private func getGrayColor() -> NSColor {
+        let appearance = NSUserDefaults.standardUserDefaults().stringForKey("AppleInterfaceStyle") ?? "Light"
+        if appearance == "Light" {
+            return NSColor.grayColor()
+        }
+        else {
+            return NSColor.lightGrayColor()
+        }
+    }
+    
     private func firstDayOfMonthForDate(date: NSDate) -> NSDateComponents {
         let dateComponents = self.calendar.components(self.dateUnitMask, fromDate: date)
         let weekday = dateComponents.weekday
@@ -252,7 +262,7 @@ class CalendarView: NSView {
         for _ in 1..<firstOfMonth.weekday {
             let view = NSTextField(frame: NSZeroRect)
             
-            view.textColor = NSColor.lightGrayColor()
+            view.textColor = getGrayColor()
             view.font = font
             view.editable = false
             view.backgroundColor = NSColor.clearColor()
@@ -290,7 +300,7 @@ class CalendarView: NSView {
         for _ in (firstOfMonth.weekday + daysCountInMonthForDay(firstOfMonth))..<43 {
             let view = NSTextField(frame: NSZeroRect)
             
-            view.textColor = NSColor.lightGrayColor()
+            view.textColor = getGrayColor()
             view.font = font
             view.editable = false
             view.backgroundColor = NSColor.clearColor()

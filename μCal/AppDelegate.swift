@@ -11,7 +11,6 @@
 
 //TODO: autostart at login
 //      About page?
-//      fix crash when switching to dark mode and format window open
 
 import Cocoa
 import ServiceManagement
@@ -46,8 +45,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         setupMenu()
         setupTimer()
         setupHelper()
-                
-        NSDistributedNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.darkModeChanged), name: "AppleInterfaceThemeChangedNotification", object: nil)
         
         prefs.addObserver(self, forKeyPath: "dateFormat", options: NSKeyValueObservingOptions.New, context: nil)
         
@@ -94,10 +91,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             
             prefs.setBool(true, forKey: "setupDone")
         }
-    }
-    
-    func darkModeChanged() {
-        calendarItem.view = getCV()
     }
     
     func setupMenu() {
