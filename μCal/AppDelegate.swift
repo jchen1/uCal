@@ -16,7 +16,7 @@ import Cocoa
 import ServiceManagement
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     var statusBar = NSStatusBar.systemStatusBar()
     var statusItem: NSStatusItem?
@@ -116,8 +116,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        
 //        menu.addItem(NSMenuItem.separatorItem())
         
-        let cv = menu.addItemWithTitle("item2", action: nil, keyEquivalent: "")!
-        cv.view = getCV()
+        calendarItem = menu.addItemWithTitle("item2", action: nil, keyEquivalent: "")!
+        calendarItem.view = getCV()
         
         menu.addItem(NSMenuItem.separatorItem())
         
@@ -131,6 +131,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         menu.addItem(NSMenuItem.separatorItem())
         menu.addItemWithTitle("Quit μCal", action: #selector(AppDelegate.quit), keyEquivalent: "")
+        
+        menu.delegate = self
+    }
+    
+    func menuDidClose(menu: NSMenu) {
+        (calendarItem.view?.subviews[0] as! CalendarView).menuWillClose()
     }
     
     func openFmtWindow() {

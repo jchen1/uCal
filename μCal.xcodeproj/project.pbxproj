@@ -22,7 +22,6 @@
 		1F475BDF1D1F4B0600ECAB84 /* _CalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F475BDE1D1F4B0600ECAB84 /* _CalTests.swift */; };
 		1F475BEA1D1F4B0600ECAB84 /* _CalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F475BE91D1F4B0600ECAB84 /* _CalUITests.swift */; };
 		1FD09F361D21A682007F29FC /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD09F351D21A682007F29FC /* CalendarView.swift */; };
-		1FD09F381D21A858007F29FC /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD09F371D21A858007F29FC /* CalendarDayView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,7 +97,6 @@
 		1F475BE91D1F4B0600ECAB84 /* _CalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _CalUITests.swift; sourceTree = "<group>"; };
 		1F475BEB1D1F4B0600ECAB84 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1FD09F351D21A682007F29FC /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
-		1FD09F371D21A858007F29FC /* CalendarDayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,7 +207,6 @@
 			children = (
 				1F475BCC1D1F4B0500ECAB84 /* AppDelegate.swift */,
 				1FD09F351D21A682007F29FC /* CalendarView.swift */,
-				1FD09F371D21A858007F29FC /* CalendarDayView.swift */,
 				1F475BD01D1F4B0600ECAB84 /* Assets.xcassets */,
 				1F475BD21D1F4B0600ECAB84 /* Main.storyboard */,
 				1F475BD51D1F4B0600ECAB84 /* Info.plist */,
@@ -490,7 +487,6 @@
 				1F18923E1D21145C003F9B48 /* NSStatusBarBridge.m in Sources */,
 				1FD09F361D21A682007F29FC /* CalendarView.swift in Sources */,
 				1F18923A1D21062A003F9B48 /* PrefsViewController.swift in Sources */,
-				1FD09F381D21A858007F29FC /* CalendarDayView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

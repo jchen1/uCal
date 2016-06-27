@@ -75,8 +75,6 @@ class CalendarView: NSView {
     private let calendar = NSCalendar.autoupdatingCurrentCalendar()
     private let dateUnitMask: NSCalendarUnit =  [NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Weekday]
     private let dateTimeUnitMask: NSCalendarUnit =  [NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.Weekday]
-
-    
     
     class func lineHeightForFont(font: NSFont) -> CGFloat {
         let attribs = NSDictionary(object: font, forKey: NSFontAttributeName)
@@ -313,6 +311,11 @@ class CalendarView: NSView {
     }
     
     func calendarUpdated() {
+        updateAppearance()
+    }
+    
+    func menuWillClose() {
+        dateValue = NSDate()
         updateAppearance()
     }
     
