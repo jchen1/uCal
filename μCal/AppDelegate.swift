@@ -116,11 +116,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         iconItem!.state = prefs.boolForKey("showIcon") ? NSOnState : NSOffState
         
         menu.addItemWithTitle("Format clock...", action: #selector(AppDelegate.openFmtWindow), keyEquivalent: "")
+
+        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItemWithTitle("Date & Time...", action: #selector(AppDelegate.openTimeSettings), keyEquivalent: "")
         
         menu.addItem(NSMenuItem.separatorItem())
         menu.addItemWithTitle("Quit μCal", action: #selector(AppDelegate.quit), keyEquivalent: "")
         
         menu.delegate = self
+    }
+    
+    func openTimeSettings() {
+        NSWorkspace.sharedWorkspace().openURL(NSURL.fileURLWithPath("/System/Library/PreferencePanes/DateAndTime.prefPane"))
     }
     
     func menuWillOpen(menu: NSMenu) {
