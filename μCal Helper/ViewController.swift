@@ -1,8 +1,8 @@
 //
 //  ViewController.swift
-//  μCal
+//  μCal Helper
 //
-//  Created by Jeff Chen on 6/25/16.
+//  Created by Jeff Chen on 6/26/16.
 //  Copyright © 2016 Jeff Chen. All rights reserved.
 //
 

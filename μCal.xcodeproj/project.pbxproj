@@ -7,17 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F1891CC1D205B26003F9B48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1891CB1D205B26003F9B48 /* AppDelegate.swift */; };
+		1F1891CE1D205B26003F9B48 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1891CD1D205B26003F9B48 /* ViewController.swift */; };
+		1F1891D01D205B26003F9B48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F1891CF1D205B26003F9B48 /* Assets.xcassets */; };
+		1F1891D31D205B26003F9B48 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F1891D11D205B26003F9B48 /* Main.storyboard */; };
+		1F1891DE1D205B26003F9B48 /* _Cal_HelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1891DD1D205B26003F9B48 /* _Cal_HelperTests.swift */; };
+		1F1891E91D205B26003F9B48 /* _Cal_HelperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1891E81D205B26003F9B48 /* _Cal_HelperUITests.swift */; };
+		1F1891F51D205B5D003F9B48 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1891F41D205B5D003F9B48 /* ServiceManagement.framework */; };
+		1F1891F71D20B00E003F9B48 /* μCal Helper.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F1891C91D205B26003F9B48 /* μCal Helper.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1F18923A1D21062A003F9B48 /* PrefsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1892391D21062A003F9B48 /* PrefsViewController.swift */; };
+		1F18923E1D21145C003F9B48 /* NSStatusBarBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F18923D1D21145C003F9B48 /* NSStatusBarBridge.m */; };
 		1F475BCD1D1F4B0500ECAB84 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F475BCC1D1F4B0500ECAB84 /* AppDelegate.swift */; };
-		1F475BCF1D1F4B0500ECAB84 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F475BCE1D1F4B0500ECAB84 /* ViewController.swift */; };
 		1F475BD11D1F4B0600ECAB84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F475BD01D1F4B0600ECAB84 /* Assets.xcassets */; };
 		1F475BD41D1F4B0600ECAB84 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F475BD21D1F4B0600ECAB84 /* Main.storyboard */; };
 		1F475BDF1D1F4B0600ECAB84 /* _CalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F475BDE1D1F4B0600ECAB84 /* _CalTests.swift */; };
 		1F475BEA1D1F4B0600ECAB84 /* _CalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F475BE91D1F4B0600ECAB84 /* _CalUITests.swift */; };
-		1F475BF81D1F4CE500ECAB84 /* switchIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F475BF71D1F4CE500ECAB84 /* switchIcon.png */; };
-		1F475C311D1F823200ECAB84 /* CalendarMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F475C301D1F823200ECAB84 /* CalendarMenuItemView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1F1891DA1D205B26003F9B48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F475BC11D1F4B0500ECAB84 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F1891C81D205B26003F9B48;
+			remoteInfo = "μCal Helper";
+		};
+		1F1891E51D205B26003F9B48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F475BC11D1F4B0500ECAB84 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F1891C81D205B26003F9B48;
+			remoteInfo = "μCal Helper";
+		};
 		1F475BDB1D1F4B0600ECAB84 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1F475BC11D1F4B0500ECAB84 /* Project object */;
@@ -34,10 +55,39 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1F1891F61D205B89003F9B48 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LoginItems;
+			dstSubfolderSpec = 1;
+			files = (
+				1F1891F71D20B00E003F9B48 /* μCal Helper.app in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		1F1891C91D205B26003F9B48 /* μCal Helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "μCal Helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F1891CB1D205B26003F9B48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1F1891CD1D205B26003F9B48 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1F1891CF1D205B26003F9B48 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1F1891D21D205B26003F9B48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1F1891D41D205B26003F9B48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F1891D91D205B26003F9B48 /* μCal HelperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "μCal HelperTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F1891DD1D205B26003F9B48 /* _Cal_HelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _Cal_HelperTests.swift; sourceTree = "<group>"; };
+		1F1891DF1D205B26003F9B48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F1891E41D205B26003F9B48 /* μCal HelperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "μCal HelperUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F1891E81D205B26003F9B48 /* _Cal_HelperUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _Cal_HelperUITests.swift; sourceTree = "<group>"; };
+		1F1891EA1D205B26003F9B48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F1891F41D205B5D003F9B48 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
+		1F1892391D21062A003F9B48 /* PrefsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefsViewController.swift; sourceTree = "<group>"; };
+		1F18923B1D211310003F9B48 /* NSStatusBarBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSStatusBarBridge.h; sourceTree = "<group>"; };
+		1F18923C1D21145C003F9B48 /* μCal-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "μCal-Bridging-Header.h"; sourceTree = "<group>"; };
+		1F18923D1D21145C003F9B48 /* NSStatusBarBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStatusBarBridge.m; sourceTree = "<group>"; };
 		1F475BC91D1F4B0500ECAB84 /* μCal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "μCal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F475BCC1D1F4B0500ECAB84 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1F475BCE1D1F4B0500ECAB84 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1F475BD01D1F4B0600ECAB84 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F475BD31D1F4B0600ECAB84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1F475BD51D1F4B0600ECAB84 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,15 +97,35 @@
 		1F475BE51D1F4B0600ECAB84 /* μCalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "μCalUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F475BE91D1F4B0600ECAB84 /* _CalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _CalUITests.swift; sourceTree = "<group>"; };
 		1F475BEB1D1F4B0600ECAB84 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1F475BF71D1F4CE500ECAB84 /* switchIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = switchIcon.png; sourceTree = "<group>"; };
-		1F475C301D1F823200ECAB84 /* CalendarMenuItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarMenuItemView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1F1891C61D205B26003F9B48 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F1891D61D205B26003F9B48 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F1891E11D205B26003F9B48 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1F475BC61D1F4B0500ECAB84 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F1891F51D205B5D003F9B48 /* ServiceManagement.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,12 +146,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F1891CA1D205B26003F9B48 /* μCal Helper */ = {
+			isa = PBXGroup;
+			children = (
+				1F1891CB1D205B26003F9B48 /* AppDelegate.swift */,
+				1F1891CD1D205B26003F9B48 /* ViewController.swift */,
+				1F1891CF1D205B26003F9B48 /* Assets.xcassets */,
+				1F1891D11D205B26003F9B48 /* Main.storyboard */,
+				1F1891D41D205B26003F9B48 /* Info.plist */,
+			);
+			path = "μCal Helper";
+			sourceTree = "<group>";
+		};
+		1F1891DC1D205B26003F9B48 /* μCal HelperTests */ = {
+			isa = PBXGroup;
+			children = (
+				1F1891DD1D205B26003F9B48 /* _Cal_HelperTests.swift */,
+				1F1891DF1D205B26003F9B48 /* Info.plist */,
+			);
+			path = "μCal HelperTests";
+			sourceTree = "<group>";
+		};
+		1F1891E71D205B26003F9B48 /* μCal HelperUITests */ = {
+			isa = PBXGroup;
+			children = (
+				1F1891E81D205B26003F9B48 /* _Cal_HelperUITests.swift */,
+				1F1891EA1D205B26003F9B48 /* Info.plist */,
+			);
+			path = "μCal HelperUITests";
+			sourceTree = "<group>";
+		};
 		1F475BC01D1F4B0500ECAB84 = {
 			isa = PBXGroup;
 			children = (
+				1F1891F41D205B5D003F9B48 /* ServiceManagement.framework */,
 				1F475BCB1D1F4B0500ECAB84 /* μCal */,
 				1F475BDD1D1F4B0600ECAB84 /* μCalTests */,
 				1F475BE81D1F4B0600ECAB84 /* μCalUITests */,
+				1F1891CA1D205B26003F9B48 /* μCal Helper */,
+				1F1891DC1D205B26003F9B48 /* μCal HelperTests */,
+				1F1891E71D205B26003F9B48 /* μCal HelperUITests */,
 				1F475BCA1D1F4B0500ECAB84 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -92,6 +196,9 @@
 				1F475BC91D1F4B0500ECAB84 /* μCal.app */,
 				1F475BDA1D1F4B0600ECAB84 /* μCalTests.xctest */,
 				1F475BE51D1F4B0600ECAB84 /* μCalUITests.xctest */,
+				1F1891C91D205B26003F9B48 /* μCal Helper.app */,
+				1F1891D91D205B26003F9B48 /* μCal HelperTests.xctest */,
+				1F1891E41D205B26003F9B48 /* μCal HelperUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -100,12 +207,13 @@
 			isa = PBXGroup;
 			children = (
 				1F475BCC1D1F4B0500ECAB84 /* AppDelegate.swift */,
-				1F475BF71D1F4CE500ECAB84 /* switchIcon.png */,
-				1F475BCE1D1F4B0500ECAB84 /* ViewController.swift */,
 				1F475BD01D1F4B0600ECAB84 /* Assets.xcassets */,
 				1F475BD21D1F4B0600ECAB84 /* Main.storyboard */,
 				1F475BD51D1F4B0600ECAB84 /* Info.plist */,
-				1F475C301D1F823200ECAB84 /* CalendarMenuItemView.swift */,
+				1F1892391D21062A003F9B48 /* PrefsViewController.swift */,
+				1F18923B1D211310003F9B48 /* NSStatusBarBridge.h */,
+				1F18923D1D21145C003F9B48 /* NSStatusBarBridge.m */,
+				1F18923C1D21145C003F9B48 /* μCal-Bridging-Header.h */,
 			);
 			path = "μCal";
 			sourceTree = "<group>";
@@ -131,6 +239,59 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1F1891C81D205B26003F9B48 /* μCal Helper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F1891EB1D205B26003F9B48 /* Build configuration list for PBXNativeTarget "μCal Helper" */;
+			buildPhases = (
+				1F1891C51D205B26003F9B48 /* Sources */,
+				1F1891C61D205B26003F9B48 /* Frameworks */,
+				1F1891C71D205B26003F9B48 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "μCal Helper";
+			productName = "μCal Helper";
+			productReference = 1F1891C91D205B26003F9B48 /* μCal Helper.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1F1891D81D205B26003F9B48 /* μCal HelperTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F1891EE1D205B26003F9B48 /* Build configuration list for PBXNativeTarget "μCal HelperTests" */;
+			buildPhases = (
+				1F1891D51D205B26003F9B48 /* Sources */,
+				1F1891D61D205B26003F9B48 /* Frameworks */,
+				1F1891D71D205B26003F9B48 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1F1891DB1D205B26003F9B48 /* PBXTargetDependency */,
+			);
+			name = "μCal HelperTests";
+			productName = "μCal HelperTests";
+			productReference = 1F1891D91D205B26003F9B48 /* μCal HelperTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		1F1891E31D205B26003F9B48 /* μCal HelperUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F1891F11D205B26003F9B48 /* Build configuration list for PBXNativeTarget "μCal HelperUITests" */;
+			buildPhases = (
+				1F1891E01D205B26003F9B48 /* Sources */,
+				1F1891E11D205B26003F9B48 /* Frameworks */,
+				1F1891E21D205B26003F9B48 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1F1891E61D205B26003F9B48 /* PBXTargetDependency */,
+			);
+			name = "μCal HelperUITests";
+			productName = "μCal HelperUITests";
+			productReference = 1F1891E41D205B26003F9B48 /* μCal HelperUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		1F475BC81D1F4B0500ECAB84 /* μCal */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F475BEE1D1F4B0600ECAB84 /* Build configuration list for PBXNativeTarget "μCal" */;
@@ -138,6 +299,7 @@
 				1F475BC51D1F4B0500ECAB84 /* Sources */,
 				1F475BC61D1F4B0500ECAB84 /* Frameworks */,
 				1F475BC71D1F4B0500ECAB84 /* Resources */,
+				1F1891F61D205B89003F9B48 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -194,8 +356,20 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Jeff Chen";
 				TargetAttributes = {
+					1F1891C81D205B26003F9B48 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					1F1891D81D205B26003F9B48 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 1F1891C81D205B26003F9B48;
+					};
+					1F1891E31D205B26003F9B48 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 1F1891C81D205B26003F9B48;
+					};
 					1F475BC81D1F4B0500ECAB84 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 45A594478C;
 					};
 					1F475BD91D1F4B0600ECAB84 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -223,17 +397,42 @@
 				1F475BC81D1F4B0500ECAB84 /* μCal */,
 				1F475BD91D1F4B0600ECAB84 /* μCalTests */,
 				1F475BE41D1F4B0600ECAB84 /* μCalUITests */,
+				1F1891C81D205B26003F9B48 /* μCal Helper */,
+				1F1891D81D205B26003F9B48 /* μCal HelperTests */,
+				1F1891E31D205B26003F9B48 /* μCal HelperUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1F1891C71D205B26003F9B48 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F1891D01D205B26003F9B48 /* Assets.xcassets in Resources */,
+				1F1891D31D205B26003F9B48 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F1891D71D205B26003F9B48 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F1891E21D205B26003F9B48 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1F475BC71D1F4B0500ECAB84 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				1F475BD11D1F4B0600ECAB84 /* Assets.xcassets in Resources */,
-				1F475BF81D1F4CE500ECAB84 /* switchIcon.png in Resources */,
 				1F475BD41D1F4B0600ECAB84 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -255,13 +454,38 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1F1891C51D205B26003F9B48 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F1891CE1D205B26003F9B48 /* ViewController.swift in Sources */,
+				1F1891CC1D205B26003F9B48 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F1891D51D205B26003F9B48 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F1891DE1D205B26003F9B48 /* _Cal_HelperTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F1891E01D205B26003F9B48 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F1891E91D205B26003F9B48 /* _Cal_HelperUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1F475BC51D1F4B0500ECAB84 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F475BCF1D1F4B0500ECAB84 /* ViewController.swift in Sources */,
 				1F475BCD1D1F4B0500ECAB84 /* AppDelegate.swift in Sources */,
-				1F475C311D1F823200ECAB84 /* CalendarMenuItemView.swift in Sources */,
+				1F18923E1D21145C003F9B48 /* NSStatusBarBridge.m in Sources */,
+				1F18923A1D21062A003F9B48 /* PrefsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +508,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1F1891DB1D205B26003F9B48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1F1891C81D205B26003F9B48 /* μCal Helper */;
+			targetProxy = 1F1891DA1D205B26003F9B48 /* PBXContainerItemProxy */;
+		};
+		1F1891E61D205B26003F9B48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1F1891C81D205B26003F9B48 /* μCal Helper */;
+			targetProxy = 1F1891E51D205B26003F9B48 /* PBXContainerItemProxy */;
+		};
 		1F475BDC1D1F4B0600ECAB84 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1F475BC81D1F4B0500ECAB84 /* μCal */;
@@ -297,6 +531,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		1F1891D11D205B26003F9B48 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1F1891D21D205B26003F9B48 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		1F475BD21D1F4B0600ECAB84 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -308,6 +550,84 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1F1891EC1D205B26003F9B48 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "μCal Helper/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-Cal-Helper";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		1F1891ED1D205B26003F9B48 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "μCal Helper/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-Cal-Helper";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		1F1891EF1D205B26003F9B48 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "μCal HelperTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-Cal-HelperTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/μCal Helper.app/Contents/MacOS/μCal Helper";
+			};
+			name = Debug;
+		};
+		1F1891F01D205B26003F9B48 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "μCal HelperTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-Cal-HelperTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/μCal Helper.app/Contents/MacOS/μCal Helper";
+			};
+			name = Release;
+		};
+		1F1891F21D205B26003F9B48 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "μCal HelperUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-Cal-HelperUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "μCal Helper";
+			};
+			name = Debug;
+		};
+		1F1891F31D205B26003F9B48 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "μCal HelperUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-Cal-HelperUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "μCal Helper";
+			};
+			name = Release;
+		};
 		1F475BEC1D1F4B0600ECAB84 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -394,11 +714,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "μCal/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jchen.uCal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "μCal/μCal-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -406,11 +732,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "μCal/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jchen.uCal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "μCal/μCal-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -467,6 +798,30 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1F1891EB1D205B26003F9B48 /* Build configuration list for PBXNativeTarget "μCal Helper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F1891EC1D205B26003F9B48 /* Debug */,
+				1F1891ED1D205B26003F9B48 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		1F1891EE1D205B26003F9B48 /* Build configuration list for PBXNativeTarget "μCal HelperTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F1891EF1D205B26003F9B48 /* Debug */,
+				1F1891F01D205B26003F9B48 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		1F1891F11D205B26003F9B48 /* Build configuration list for PBXNativeTarget "μCal HelperUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F1891F21D205B26003F9B48 /* Debug */,
+				1F1891F31D205B26003F9B48 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		1F475BC41D1F4B0500ECAB84 /* Build configuration list for PBXProject "μCal" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -483,6 +838,7 @@
 				1F475BF01D1F4B0600ECAB84 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1F475BF11D1F4B0600ECAB84 /* Build configuration list for PBXNativeTarget "μCalTests" */ = {
 			isa = XCConfigurationList;
@@ -491,6 +847,7 @@
 				1F475BF31D1F4B0600ECAB84 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1F475BF41D1F4B0600ECAB84 /* Build configuration list for PBXNativeTarget "μCalUITests" */ = {
 			isa = XCConfigurationList;
@@ -499,6 +856,7 @@
 				1F475BF61D1F4B0600ECAB84 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
