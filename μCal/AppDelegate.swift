@@ -41,12 +41,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem?.button?.imagePosition = prefs.boolForKey("showIcon") ? NSCellImagePosition.ImageLeft : NSCellImagePosition.NoImage
         
         dateFormatter.dateFormat = prefs.stringForKey("dateFormat")
-        
+                
         updateTime()
         setupMenu()
         setupTimer()
         setupHelper()
-        
+                
         NSDistributedNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.darkModeChanged), name: "AppleInterfaceThemeChangedNotification", object: nil)
         
         prefs.addObserver(self, forKeyPath: "dateFormat", options: NSKeyValueObservingOptions.New, context: nil)
@@ -56,7 +56,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func setupHelper() {
-        //        print(SMLoginItemSetEnabled(launcherAppId, true))
         for app in NSWorkspace.sharedWorkspace().runningApplications {
             if app.bundleIdentifier == launcherAppId {
                 NSDistributedNotificationCenter.defaultCenter().postNotificationName("uCalHelperKillNotification", object: NSBundle.mainBundle().bundleIdentifier!)
@@ -89,45 +88,49 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func setupPreferences() {
         if !prefs.boolForKey("setupDone") {
-            prefs.setBool(true, forKey: "showIcon");
-            prefs.setBool(false, forKey: "startAtLogin");
-            prefs.setObject("EEE h:mm aa", forKey: "dateFormat");
+            prefs.setBool(true, forKey: "showIcon")
+            prefs.setBool(false, forKey: "startAtLogin")
+            prefs.setObject("EEE h:mm aa", forKey: "dateFormat")
             
-            prefs.setBool(true, forKey: "setupDone");
+            prefs.setBool(true, forKey: "setupDone")
         }
     }
     
     func darkModeChanged() {
-        datePicker.textColor = NSColor.whiteColor();
-        calendarItem.view = getCalendarItem();
+        datePicker.textColor = NSColor.whiteColor()
+        calendarItem.view = getCalendarItem()
         
-        print(datePicker.subviews);
 //        datePicker.cell.textColor
         
-        datePicker.setValue(NSColor.whiteColor(), forKey: "textColor");
+        datePicker.setValue(NSColor.whiteColor(), forKey: "textColor")
         
-//        datePicker.needsDisplay = true;
+//        datePicker.needsDisplay = true
     }
     
     func setupMenu() {
-        statusItem?.menu = menu;
-        menu.minimumWidth = 160;
+        statusItem?.menu = menu
+        menu.minimumWidth = 160
         
-        calendarItem = menu.addItemWithTitle("item", action: nil, keyEquivalent: "")!;
-        calendarItem.view = getCalendarItem();
+//        calendarItem = menu.addItemWithTitle("item", action: nil, keyEquivalent: "")!
+//        calendarItem.view = getCalendarItem()
+//        
+//        menu.addItem(NSMenuItem.separatorItem())
         
-        menu.addItem(NSMenuItem.separatorItem());
+        let cv = menu.addItemWithTitle("item2", action: nil, keyEquivalent: "")!
+        cv.view = getCV()
         
-        let loginItem = menu.addItemWithTitle("Start at login", action: #selector(AppDelegate.toggleAutostart), keyEquivalent: "");
-        loginItem!.state = prefs.boolForKey("startAtLogin") ? NSOnState : NSOffState;
+        menu.addItem(NSMenuItem.separatorItem())
         
-        let iconItem = menu.addItemWithTitle("Show icon", action: #selector(AppDelegate.toggleIcon), keyEquivalent: "");
-        iconItem!.state = prefs.boolForKey("showIcon") ? NSOnState : NSOffState;
+        let loginItem = menu.addItemWithTitle("Start at login", action: #selector(AppDelegate.toggleAutostart), keyEquivalent: "")
+        loginItem!.state = prefs.boolForKey("startAtLogin") ? NSOnState : NSOffState
         
-        menu.addItemWithTitle("Format clock...", action: #selector(AppDelegate.openFmtWindow), keyEquivalent: "");
+        let iconItem = menu.addItemWithTitle("Show icon", action: #selector(AppDelegate.toggleIcon), keyEquivalent: "")
+        iconItem!.state = prefs.boolForKey("showIcon") ? NSOnState : NSOffState
         
-        menu.addItem(NSMenuItem.separatorItem());
-        menu.addItemWithTitle("Quit μCal", action: #selector(AppDelegate.quit), keyEquivalent: "");
+        menu.addItemWithTitle("Format clock...", action: #selector(AppDelegate.openFmtWindow), keyEquivalent: "")
+        
+        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItemWithTitle("Quit μCal", action: #selector(AppDelegate.quit), keyEquivalent: "")
     }
     
     func openFmtWindow() {
@@ -145,90 +148,110 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func getDay(date : NSDate) -> UInt8 {
-        let formatter = NSDateFormatter();
-        formatter.dateFormat = "d";
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "d"
         return UInt8(formatter.stringFromDate(date))!
     }
     
     func toggleIcon() {
-        let showIcon = !prefs.boolForKey("showIcon");
-        let iconItem = menu.itemAtIndex(menu.indexOfItemWithTitle("Show icon"));
+        let showIcon = !prefs.boolForKey("showIcon")
+        let iconItem = menu.itemAtIndex(menu.indexOfItemWithTitle("Show icon"))
         if showIcon {
-            statusItem?.button?.imagePosition = NSCellImagePosition.ImageLeft;
-            iconItem?.state = NSOnState;
+            statusItem?.button?.imagePosition = NSCellImagePosition.ImageLeft
+            iconItem?.state = NSOnState
         }
         else {
-            statusItem?.button?.imagePosition = NSCellImagePosition.NoImage;
-            iconItem?.state = NSOffState;
+            statusItem?.button?.imagePosition = NSCellImagePosition.NoImage
+            iconItem?.state = NSOffState
         }
-        prefs.setBool(showIcon, forKey: "showIcon");
+        prefs.setBool(showIcon, forKey: "showIcon")
     }
     
     func toggleAutostart() {
-        let autoStart = !prefs.boolForKey("startAtLogin");
-        let autostartItem = menu.itemAtIndex(menu.indexOfItemWithTitle("Start at login"));
+        let autoStart = !prefs.boolForKey("startAtLogin")
+        let autostartItem = menu.itemAtIndex(menu.indexOfItemWithTitle("Start at login"))
         if autoStart {
-            autostartItem?.state = NSOnState;
+            autostartItem?.state = NSOnState
         }
         else {
-            autostartItem?.state = NSOffState;
+            autostartItem?.state = NSOffState
         }
-        prefs.setBool(autoStart, forKey: "startAtLogin");
+        prefs.setBool(autoStart, forKey: "startAtLogin")
         SMLoginItemSetEnabled(launcherAppId, autoStart)
     }
     
     func quit() {
-        NSApplication.sharedApplication().terminate(self);
+        NSApplication.sharedApplication().terminate(self)
     }
     
     func getCalendarItem() -> NSView {
-        let view = NSView();
-        view.setFrameSize(NSSize(width: 160, height: 150));
+        let view = NSView()
+        view.setFrameSize(NSSize(width: 160, height: 150))
         
-        datePicker.calendar = NSCalendar.autoupdatingCurrentCalendar();
-        datePicker.datePickerMode = NSDatePickerMode.SingleDateMode;
-        datePicker.datePickerStyle = NSDatePickerStyle.ClockAndCalendarDatePickerStyle;
-        datePicker.datePickerElements = NSDatePickerElementFlags.YearMonthDayDatePickerElementFlag;
-        datePicker.bezeled = false;
-        datePicker.dateValue = NSDate();
+        datePicker.calendar = NSCalendar.autoupdatingCurrentCalendar()
+        datePicker.datePickerMode = NSDatePickerMode.SingleDateMode
+        datePicker.datePickerStyle = NSDatePickerStyle.ClockAndCalendarDatePickerStyle
+        datePicker.datePickerElements = NSDatePickerElementFlags.YearMonthDayDatePickerElementFlag
+        datePicker.bezeled = false
+        datePicker.dateValue = NSDate()
         
-        datePicker.setFrameOrigin(NSPoint(x: 10, y: 0));
-        datePicker.setFrameSize(NSSize(width: 140, height: 150));
+        datePicker.setFrameOrigin(NSPoint(x: 10, y: 0))
+        datePicker.setFrameSize(NSSize(width: 140, height: 150))
         
-        view.addSubview(datePicker);
+        view.addSubview(datePicker)
         
-        return view;
+        return view
+    }
+    
+    func getCV() -> NSView {
+        let view = NSView()
+        view.setFrameSize(NSSize(width: 160, height: 150))
+        
+//        datePicker.calendar = NSCalendar.autoupdatingCurrentCalendar();
+//        datePicker.datePickerMode = NSDatePickerMode.SingleDateMode;
+//        datePicker.datePickerStyle = NSDatePickerStyle.ClockAndCalendarDatePickerStyle;
+//        datePicker.datePickerElements = NSDatePickerElementFlags.YearMonthDayDatePickerElementFlag;
+//        datePicker.bezeled = false;
+//        datePicker.dateValue = NSDate();
+//        
+//        datePicker.setFrameOrigin(NSPoint(x: 10, y: 0));
+//        datePicker.setFrameSize(NSSize(width: 140, height: 150));
+        
+        view.addSubview(CalendarView(frame: NSRect(x: 5, y: -2, width: 140, height: 150)))
+        
+        return view
     }
 
     func getNumberedIcon() -> NSImage {
-        let icon = NSImage(named: "calendar");
-        let numberedIcon = NSImage(size: (icon?.size)!);
-        let style = NSMutableParagraphStyle();
-        style.alignment = NSTextAlignment.Center;
-        let attrs = [NSParagraphStyleAttributeName: style, NSFontAttributeName: NSFont.menuBarFontOfSize(9)];
+        let icon = NSImage(named: "calendar")
+        let numberedIcon = NSImage(size: (icon?.size)!)
+        let style = NSMutableParagraphStyle()
+        style.alignment = NSTextAlignment.Center
+        let attrs = [NSParagraphStyleAttributeName: style, NSFontAttributeName: NSFont.menuBarFontOfSize(9)]
         let dayString = String(getDay(NSDate()))
         
         numberedIcon.lockFocus();
-        icon?.drawAtPoint(NSZeroPoint, fromRect: NSZeroRect, operation: NSCompositingOperation.CompositeSourceOver, fraction: 1.0);
-        dayString.drawInRect(NSRect(origin: NSPoint(x: 0, y: -7), size: numberedIcon.size), withAttributes: attrs);
+        icon?.drawAtPoint(NSZeroPoint, fromRect: NSZeroRect, operation: NSCompositingOperation.CompositeSourceOver, fraction: 1.0)
+        dayString.drawInRect(NSRect(origin: NSPoint(x: 0, y: -7), size: numberedIcon.size), withAttributes: attrs)
             
-        numberedIcon.unlockFocus();
+        numberedIcon.unlockFocus()
         
-        return numberedIcon;
+        return numberedIcon
     }
     
     func updateTime() {
-        let currentTime = NSDate();
-        let timeString = dateFormatter.stringFromDate(currentTime);
+        let currentTime = NSDate()
+        let timeString = dateFormatter.stringFromDate(currentTime)
         
-        statusItem?.button?.title = timeString;
+        statusItem?.button?.title = timeString
         //TODO: make this work
-        statusItem?.button?.alternateTitle = timeString;
-        datePicker.dateValue = currentTime;
+        statusItem?.button?.alternateTitle = timeString
+        datePicker.dateValue = currentTime
         
         if (lastDay != getDay(currentTime)) {
-            lastDay = getDay(currentTime);
-            statusItem?.button?.image = getNumberedIcon();
+            lastDay = getDay(currentTime)
+            statusItem?.button?.image = getNumberedIcon()
+            statusItem?.button?.image?.template = true
         }
     }
 

@@ -27,7 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.quit()
         }
         else {
-            NSDistributedNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.quit), name: "UCalHelperKillNotification", object: mainAppId)
+            NSDistributedNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.quit), name: "uCalHelperKillNotification", object: mainAppId)
             
             let path = NSBundle.mainBundle().bundlePath as NSString
             var components = path.pathComponents
