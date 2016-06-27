@@ -12,21 +12,38 @@ import ServiceManagement
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-
-
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        let launcherAppIdentifier = "com.jchen.μCalHelper"
+        let mainAppId = "com.jchen.uCal"
+        let running = NSWorkspace.sharedWorkspace().runningApplications
+        var alreadyRunning = false
         
-        SMLoginItemSetEnabled(launcherAppIdentifier, true)
-        
-        var startedAtLogin = false
-        for app in NSWorkspace.sharedWorkspace().runningApplications {
-            if app.bundleIdentifier == launcherAppIdentifier {
-                startedAtLogin = true
+        for app in running {
+            if app.bundleIdentifier == mainAppId {
+                alreadyRunning = true
             }
         }
         
-//        if startedAtLogin
+        if alreadyRunning {
+            self.quit()
+        }
+        else {
+            NSDistributedNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.quit), name: "UCalHelperKillNotification", object: mainAppId)
+            
+            let path = NSBundle.mainBundle().bundlePath as NSString
+            var components = path.pathComponents
+            components.removeLast()
+            components.removeLast()
+            components.removeLast()
+            components.append("MacOS")
+            components.append("μCal")
+            
+            let newPath = NSString.pathWithComponents(components)
+            NSWorkspace.sharedWorkspace().launchApplication(newPath)
+        }
+    }
+    
+    func quit() {
+        NSApplication.sharedApplication().terminate(self);
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {

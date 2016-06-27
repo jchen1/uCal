@@ -13,42 +13,58 @@
 //      About page?
 
 import Cocoa
+import ServiceManagement
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    var statusBar = NSStatusBar.systemStatusBar();
-    var statusItem: NSStatusItem?;
-    var menu = NSMenu();
-    var calendarItem = NSMenuItem();
-    let datePicker = NSDatePicker();
+    var statusBar = NSStatusBar.systemStatusBar()
+    var statusItem: NSStatusItem?
+    var menu = NSMenu()
+    var calendarItem = NSMenuItem()
+    let datePicker = NSDatePicker()
     
-    let dateFormatter = NSDateFormatter();
-    var timer = NSTimer();
-    let prefs = NSUserDefaults.standardUserDefaults();
-    var lastDay:UInt8 = 0;
+    let dateFormatter = NSDateFormatter()
+    var timer = NSTimer()
+    let prefs = NSUserDefaults.standardUserDefaults()
+    var lastDay:UInt8 = 0
     var prefsWindowController: NSWindowController?
+    let launcherAppId = "com.jchen.uCalHelper"
 
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
-        setupPreferences();
-        lastDay = getDay(NSDate());
+    func applicationDidFinishLaunching(aNotification: NSNotification) {        
+        setupPreferences()
+        lastDay = getDay(NSDate())
         
-        statusItem = statusBar.statusItemWithLength(NSVariableStatusItemLength, priority: NSStatusBarItemPriority.System);
-        statusItem?.button?.image = getNumberedIcon();
-        statusItem?.button?.image?.template = true;
-        statusItem?.button?.imagePosition = prefs.boolForKey("showIcon") ? NSCellImagePosition.ImageLeft : NSCellImagePosition.NoImage;
+        statusItem = statusBar.statusItemWithLength(NSVariableStatusItemLength, priority: NSStatusBarItemPriority.System)
+        statusItem?.button?.image = getNumberedIcon()
+        statusItem?.button?.image?.template = true
+        statusItem?.button?.imagePosition = prefs.boolForKey("showIcon") ? NSCellImagePosition.ImageLeft : NSCellImagePosition.NoImage
         
-        dateFormatter.dateFormat = prefs.stringForKey("dateFormat");
+        dateFormatter.dateFormat = prefs.stringForKey("dateFormat")
         
-        updateTime();
-        setupMenu();
-        setupTimer();
+        updateTime()
+        setupMenu()
+        setupTimer()
+        setupHelper()
         
-        NSDistributedNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.darkModeChanged), name: "AppleInterfaceThemeChangedNotification", object: nil);
+        NSDistributedNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.darkModeChanged), name: "AppleInterfaceThemeChangedNotification", object: nil)
+        
         prefs.addObserver(self, forKeyPath: "dateFormat", options: NSKeyValueObservingOptions.New, context: nil)
         
         //todo: listen to NSSystemClockDidChangeNotification
         // maybe not - we update every second anyways
+    }
+    
+    func setupHelper() {
+        //        print(SMLoginItemSetEnabled(launcherAppId, true))
+        for app in NSWorkspace.sharedWorkspace().runningApplications {
+            if app.bundleIdentifier == launcherAppId {
+                NSDistributedNotificationCenter.defaultCenter().postNotificationName("uCalHelperKillNotification", object: NSBundle.mainBundle().bundleIdentifier!)
+            }
+        }
+        
+        SMLoginItemSetEnabled(launcherAppId, prefs.boolForKey("startAtLogin"))
+
     }
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
@@ -61,14 +77,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func setupTimer() {
-        let time = NSDate();
+        let time = NSDate()
         
-        let currentSecond = time.timeIntervalSinceReferenceDate;
-        let timeToAdd = ceil(currentSecond) - currentSecond + 0.1;
+        let currentSecond = time.timeIntervalSinceReferenceDate
+        let timeToAdd = ceil(currentSecond) - currentSecond + 0.1
         
-        timer = NSTimer.init(fireDate: NSDate.init(timeInterval: timeToAdd, sinceDate: time), interval: 1.0, target: self, selector: #selector(AppDelegate.updateTime), userInfo: nil, repeats: true);
+        timer = NSTimer.init(fireDate: NSDate.init(timeInterval: timeToAdd, sinceDate: time), interval: 1.0, target: self, selector: #selector(AppDelegate.updateTime), userInfo: nil, repeats: true)
         
-        NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode);
+        NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
     }
     
     func setupPreferences() {
@@ -122,8 +138,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             myWindow.title = "Format clock..."
             myWindow.makeKeyAndOrderFront(self)
             myWindow.styleMask &= ~NSResizableWindowMask
-//            myWindow.showsResizeIndicator = false
-//            myWindow.
             prefsWindowController = NSWindowController(window: myWindow)
             
             prefsWindowController!.showWindow(self)
@@ -160,6 +174,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             autostartItem?.state = NSOffState;
         }
         prefs.setBool(autoStart, forKey: "startAtLogin");
+        SMLoginItemSetEnabled(launcherAppId, autoStart)
     }
     
     func quit() {
