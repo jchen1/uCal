@@ -239,7 +239,6 @@ class CalendarView: NSView {
     }
     
     func getDayViewsForDate(date: NSDate) -> [NSTextField] {
-        // find current
         var dayViews: [NSTextField] = []
         let firstOfMonth = firstDayOfMonthForDate(date)
         
@@ -314,7 +313,7 @@ class CalendarView: NSView {
         updateAppearance()
     }
     
-    func menuWillClose() {
+    func menuWillOpen() {
         dateValue = NSDate()
         updateAppearance()
     }

@@ -11,6 +11,7 @@
 
 //TODO: autostart at login
 //      About page?
+//      fix crash when switching to dark mode and format window open
 
 import Cocoa
 import ServiceManagement
@@ -22,7 +23,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var statusItem: NSStatusItem?
     var menu = NSMenu()
     var calendarItem = NSMenuItem()
-    let datePicker = NSDatePicker()
     
     let dateFormatter = NSDateFormatter()
     var timer = NSTimer()
@@ -97,26 +97,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     func darkModeChanged() {
-        datePicker.textColor = NSColor.whiteColor()
-        calendarItem.view = getCalendarItem()
-        
-//        datePicker.cell.textColor
-        
-        datePicker.setValue(NSColor.whiteColor(), forKey: "textColor")
-        
-//        datePicker.needsDisplay = true
+        calendarItem.view = getCV()
     }
     
     func setupMenu() {
         statusItem?.menu = menu
         menu.minimumWidth = 160
         
-//        calendarItem = menu.addItemWithTitle("item", action: nil, keyEquivalent: "")!
-//        calendarItem.view = getCalendarItem()
-//        
-//        menu.addItem(NSMenuItem.separatorItem())
-        
-        calendarItem = menu.addItemWithTitle("item2", action: nil, keyEquivalent: "")!
+        calendarItem = menu.addItemWithTitle("item", action: nil, keyEquivalent: "")!
         calendarItem.view = getCV()
         
         menu.addItem(NSMenuItem.separatorItem())
@@ -135,8 +123,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.delegate = self
     }
     
-    func menuDidClose(menu: NSMenu) {
-        (calendarItem.view?.subviews[0] as! CalendarView).menuWillClose()
+    func menuWillOpen(menu: NSMenu) {
+        (calendarItem.view?.subviews[0] as! CalendarView).menuWillOpen()
     }
     
     func openFmtWindow() {
@@ -150,6 +138,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             prefsWindowController = NSWindowController(window: myWindow)
             
             prefsWindowController!.showWindow(self)
+            NSApp.activateIgnoringOtherApps(true)
         }
     }
     
@@ -190,38 +179,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         NSApplication.sharedApplication().terminate(self)
     }
     
-    func getCalendarItem() -> NSView {
-        let view = NSView()
-        view.setFrameSize(NSSize(width: 160, height: 150))
-        
-        datePicker.calendar = NSCalendar.autoupdatingCurrentCalendar()
-        datePicker.datePickerMode = NSDatePickerMode.SingleDateMode
-        datePicker.datePickerStyle = NSDatePickerStyle.ClockAndCalendarDatePickerStyle
-        datePicker.datePickerElements = NSDatePickerElementFlags.YearMonthDayDatePickerElementFlag
-        datePicker.bezeled = false
-        datePicker.dateValue = NSDate()
-        
-        datePicker.setFrameOrigin(NSPoint(x: 10, y: 0))
-        datePicker.setFrameSize(NSSize(width: 140, height: 150))
-        
-        view.addSubview(datePicker)
-        
-        return view
-    }
-    
     func getCV() -> NSView {
         let view = NSView()
         view.setFrameSize(NSSize(width: 160, height: 150))
-        
-//        datePicker.calendar = NSCalendar.autoupdatingCurrentCalendar();
-//        datePicker.datePickerMode = NSDatePickerMode.SingleDateMode;
-//        datePicker.datePickerStyle = NSDatePickerStyle.ClockAndCalendarDatePickerStyle;
-//        datePicker.datePickerElements = NSDatePickerElementFlags.YearMonthDayDatePickerElementFlag;
-//        datePicker.bezeled = false;
-//        datePicker.dateValue = NSDate();
-//        
-//        datePicker.setFrameOrigin(NSPoint(x: 10, y: 0));
-//        datePicker.setFrameSize(NSSize(width: 140, height: 150));
         
         view.addSubview(CalendarView(frame: NSRect(x: 5, y: -2, width: 140, height: 150)))
         
@@ -252,7 +212,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         statusItem?.button?.title = timeString
         //TODO: make this work
         statusItem?.button?.alternateTitle = timeString
-        datePicker.dateValue = currentTime
         
         if (lastDay != getDay(currentTime)) {
             lastDay = getDay(currentTime)
