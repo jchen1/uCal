@@ -141,6 +141,8 @@ class CalendarView: NSView {
         todayButton.setButtonType(NSButtonType.MomentaryChangeButton)
         forwardButton.setButtonType(NSButtonType.MomentaryChangeButton)
         
+        todayButton.enabled = calendar.compareDate(dateValue, toDate: NSDate(), toUnitGranularity: NSCalendarUnit.Month) != NSComparisonResult.OrderedSame
+        
         backButton.bordered = false
         todayButton.bordered = false
         forwardButton.bordered = false
@@ -184,17 +186,17 @@ class CalendarView: NSView {
     
     func monthBackAction(sender: NSButton) {
         dateValue = oneMonthEarlierDayForDay(self.calendar.components(self.dateUnitMask, fromDate: dateValue))
-        updateAppearance()
+        updateMonth()
     }
     
     func monthForwardAction(sender: NSButton) {
         dateValue = oneMonthLaterDayForDay(self.calendar.components(self.dateUnitMask, fromDate: dateValue))
-        updateAppearance()
+        updateMonth()
     }
     
     func todayAction(sender: NSButton) {
         dateValue = NSDate()
-        updateAppearance()
+        updateMonth()
     }
     
     private func getPrimaryColor() -> NSColor {
@@ -248,47 +250,54 @@ class CalendarView: NSView {
         return days.length
     }
     
+    private func makeDay(day: String, color: NSColor, font: NSFont) -> NSTextField {
+        let view = NSTextField(frame: NSZeroRect)
+        view.textColor = color
+        view.font = font
+        view.editable = false
+        view.drawsBackground = false
+        view.alignment = NSTextAlignment.Right
+        view.stringValue = day
+        view.bordered = false
+        
+        return view
+    }
+    
     func getDayViewsForDate(date: NSDate) -> [NSTextField] {
         var dayViews: [NSTextField] = []
         let firstOfMonth = firstDayOfMonthForDate(date)
         
         let lastMonth = firstDayOfMonthForDate(date)
+        let dateComponents = calendar.components(dateUnitMask, fromDate: dateValue)
+        let currentDate = NSDate()
+        let currentComponents = calendar.components(dateUnitMask, fromDate: currentDate)
+        
         lastMonth.month -= 1
         if lastMonth.month == 0 {
             lastMonth.month = 12
         }
         
-        var curDay = daysCountInMonthForDay(lastMonth)
+        var curDay : Int = daysCountInMonthForDay(lastMonth)
         for _ in 1..<firstOfMonth.weekday {
-            let view = NSTextField(frame: NSZeroRect)
+            let view = makeDay(String(curDay), color: getGrayColor(), font: font)
             
-            view.textColor = getGrayColor()
-            view.font = font
-            view.editable = false
-            view.backgroundColor = NSColor.clearColor()
-            view.bordered = false
-            view.alignment = NSTextAlignment.Right
-            view.shadow = nil
-            view.stringValue = String(curDay)
+            if (dateComponents.year == currentComponents.year &&
+                dateComponents.month == currentComponents.month + 1 &&
+                curDay == currentComponents.day) {
+                view.font = weekFont
+                view.textColor = getSelectedColor()
+            }
             
             curDay -= 1
             dayViews.insert(view, atIndex: 0)
         }
         curDay = 1
         for _ in 0..<daysCountInMonthForDay(firstOfMonth) {
-            let view = NSTextField(frame: NSZeroRect)
-            view.textColor = getPrimaryColor()
-            view.font = font
-            view.editable = false
-            view.backgroundColor = NSColor.clearColor()
-            view.bordered = false
-            view.alignment = NSTextAlignment.Right
-            view.shadow = nil
-            view.stringValue = String(curDay)
+            let view = makeDay(String(curDay), color: getPrimaryColor(), font: font)
             
-            if (self.calendar.component(NSCalendarUnit.Month, fromDate: date) == self.calendar.component(NSCalendarUnit.Month, fromDate: NSDate()) &&
-                self.calendar.component(NSCalendarUnit.Year, fromDate: date) ==
-                self.calendar.component(NSCalendarUnit.Year, fromDate: NSDate()) && curDay == self.calendar.component(NSCalendarUnit.Day, fromDate: NSDate())) {
+            if (dateComponents.year == currentComponents.year &&
+                dateComponents.month == currentComponents.month &&
+                curDay == currentComponents.day) {
                 view.font = weekFont
                 view.textColor = getSelectedColor()
             }
@@ -298,16 +307,15 @@ class CalendarView: NSView {
         }
         curDay = 1
         for _ in (firstOfMonth.weekday + daysCountInMonthForDay(firstOfMonth))..<43 {
-            let view = NSTextField(frame: NSZeroRect)
+            let view = makeDay(String(curDay), color: getGrayColor(), font: font)
             
-            view.textColor = getGrayColor()
-            view.font = font
-            view.editable = false
-            view.backgroundColor = NSColor.clearColor()
-            view.bordered = false
-            view.alignment = NSTextAlignment.Right
-            view.shadow = nil
-            view.stringValue = String(curDay)
+            if (dateComponents.year == currentComponents.year &&
+                dateComponents.month == currentComponents.month - 1 &&
+                curDay == currentComponents.day) {
+                view.font = weekFont
+                view.textColor = getSelectedColor()
+            }
+            
             curDay += 1
             dayViews.append(view)
         }
@@ -328,35 +336,11 @@ class CalendarView: NSView {
         updateAppearance()
     }
     
-    private func updateAppearance() {
+    private func updateMonth() {
         updateMonthLabel()
         updateButtons()
         
-        for weekdayLabel in weekdayLabels {
-            weekdayLabel.removeFromSuperview()
-        }
-        weekdayLabels.removeAll(keepCapacity: true)
-        
         var curX = 0
-        for i in 0..<7 {
-            let label = NSTextField(frame: NSZeroRect)
-            label.font = weekFont
-            label.textColor = getPrimaryColor()
-            label.editable = false
-            label.backgroundColor = NSColor.clearColor()
-            label.bordered = false
-            label.alignment = NSTextAlignment.Right
-            label.stringValue = calendar.veryShortWeekdaySymbols[i]
-            
-            label.frame = NSRect(x: CGFloat(curX), y: NSMaxY(frame) - 40, width: floor(self.frame.width / 7), height: CalendarView.lineHeightForFont(weekFont))
-            
-            curX += Int(floor(self.frame.width / 7))
-            
-            weekdayLabels.append(label)
-            self.addSubview(label)
-        }
-        
-        curX = 0
         var curY = NSMaxY(frame) - 60
         for view in days {
             view.removeFromSuperview()
@@ -373,6 +357,27 @@ class CalendarView: NSView {
             }
             
             self.addSubview(view)
+        }
+    }
+    
+    private func updateAppearance() {
+        updateMonth()
+        
+        for weekdayLabel in weekdayLabels {
+            weekdayLabel.removeFromSuperview()
+        }
+        weekdayLabels.removeAll(keepCapacity: true)
+        
+        var curX = 0
+        for i in 0..<7 {
+            let label = makeDay(calendar.veryShortWeekdaySymbols[i], color: getPrimaryColor(), font: weekFont)
+            
+            label.frame = NSRect(x: CGFloat(curX), y: NSMaxY(frame) - 40, width: floor(self.frame.width / 7), height: CalendarView.lineHeightForFont(weekFont))
+            
+            curX += Int(floor(self.frame.width / 7))
+            
+            weekdayLabels.append(label)
+            self.addSubview(label)
         }
     }
     
