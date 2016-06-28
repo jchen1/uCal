@@ -96,6 +96,7 @@
 		1F475BE51D1F4B0600ECAB84 /* μCalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "μCalUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F475BE91D1F4B0600ECAB84 /* _CalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _CalUITests.swift; sourceTree = "<group>"; };
 		1F475BEB1D1F4B0600ECAB84 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1FC49E7A1D2230B100887A2F /* μCal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "μCal.entitlements"; sourceTree = "<group>"; };
 		1FD09F351D21A682007F29FC /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -205,6 +206,7 @@
 		1F475BCB1D1F4B0500ECAB84 /* μCal */ = {
 			isa = PBXGroup;
 			children = (
+				1FC49E7A1D2230B100887A2F /* μCal.entitlements */,
 				1F475BCC1D1F4B0500ECAB84 /* AppDelegate.swift */,
 				1FD09F351D21A682007F29FC /* CalendarView.swift */,
 				1F475BD01D1F4B0600ECAB84 /* Assets.xcassets */,
@@ -371,6 +373,11 @@
 					1F475BC81D1F4B0500ECAB84 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 45A594478C;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 					1F475BD91D1F4B0600ECAB84 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -716,6 +723,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "μCal/μCal.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -734,6 +742,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "μCal/μCal.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
