@@ -198,7 +198,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         numberedIcon.lockFocus();
         icon?.drawAtPoint(NSZeroPoint, fromRect: NSZeroRect, operation: NSCompositingOperation.CompositeSourceOver, fraction: 1.0)
-        dayString.drawInRect(NSRect(origin: NSPoint(x: 0, y: -7), size: numberedIcon.size), withAttributes: attrs)
+        dayString.drawInRect(NSRect(origin: NSPoint(x: 0, y: -6), size: numberedIcon.size), withAttributes: attrs)
             
         numberedIcon.unlockFocus()
         
