@@ -82,7 +82,7 @@ class UpcomingEventsView: NSView {
     
     private func drawEvents() {
         var curY = NSMaxY(bounds)
-        events = Array((NSArray(array: events).sortedArrayUsingSelector(#selector(EKEvent.compareStartDateWithEvent)) as! [EKEvent]).prefix(Int(maxEventsToDisplay)))
+        events = (NSArray(array: events).sortedArrayUsingSelector(#selector(EKEvent.compareStartDateWithEvent)) as! [EKEvent])
         
         if events.count > 0 {
             var curDay = events[0].startDate
@@ -100,6 +100,10 @@ class UpcomingEventsView: NSView {
                 }
                 let height = EventView.getRequiredHeight(event)
                 let evt = EventView(frame: NSRect(x: 0, y: curY - height, width: NSMaxX(bounds) - 5, height: height), event: event)
+            
+                if curY - height < 0 {
+                    break
+                }
                 
                 curY -= height
                 addSubview(evt)
@@ -120,9 +124,7 @@ class UpcomingEventsView: NSView {
     private var eventViews: [EventView] = []
     private let eventStore = EKEventStore()
     private let calendar = NSCalendar.currentCalendar()
-    
-    private var maxEventsToDisplay: UInt = 3
-    
+        
     private(set) var desiredHeight: CGFloat = 0
     
     

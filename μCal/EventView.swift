@@ -33,7 +33,7 @@ class EventView: NSView {
         self.event = event
         super.init(frame: frameRect)
         
-        let font = NSFont.systemFontOfSize(NSFont.smallSystemFontSize())
+        let font = NSFont.systemFontOfSize(NSFont.smallSystemFontSize(), weight: NSFontWeightLight)
         let bFont = NSFont.boldSystemFontOfSize(NSFont.smallSystemFontSize())
         let lFont = NSFont.systemFontOfSize(NSFont.smallSystemFontSize() - 1)
         let bubbleFont = NSFont.boldSystemFontOfSize(NSFont.systemFontSize())
