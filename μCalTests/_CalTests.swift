@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import _Cal
+@testable import μCal
 
 class _CalTests: XCTestCase {
     

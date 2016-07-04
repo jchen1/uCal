@@ -13,6 +13,7 @@
 //      About page?
 
 import Cocoa
+import EventKit
 import ServiceManagement
 
 @NSApplicationMain
@@ -22,6 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var statusItem: NSStatusItem?
     var menu = NSMenu()
     var calendarItem = NSMenuItem()
+    var eventsItem = NSMenuItem()
     
     let dateFormatter = NSDateFormatter()
     var timer = NSTimer()
@@ -46,6 +48,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         setupMenu()
         setupTimer()
         setupHelper()
+        
+        checkAndRequestEventStoreAccess()
         
         prefs.addObserver(self, forKeyPath: "dateFormat", options: NSKeyValueObservingOptions.New, context: nil)
         
@@ -98,8 +102,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         statusItem?.menu = menu
         menu.minimumWidth = 160
         
-        calendarItem = menu.addItemWithTitle("item", action: nil, keyEquivalent: "")!
+        calendarItem = menu.addItemWithTitle("cal", action: nil, keyEquivalent: "")!
         calendarItem.view = getCV()
+        
+        menu.addItem(NSMenuItem.separatorItem())
         
         menu.addItem(NSMenuItem.separatorItem())
         
@@ -126,6 +132,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     func menuWillOpen(menu: NSMenu) {
         (calendarItem.view?.subviews[0] as! CalendarView).menuWillOpen()
+        
+        let authorizationStatus = EKEventStore.authorizationStatusForEntityType(EKEntityType.Event)
+        if authorizationStatus == EKAuthorizationStatus.Authorized {
+            eventsItem.view = getEV()
+            eventsItem.view?.display()
+        }
     }
     
     func openFmtWindow() {
@@ -140,6 +152,30 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             
             prefsWindowController!.showWindow(self)
             NSApp.activateIgnoringOtherApps(true)
+        }
+    }
+    
+    func checkAndRequestEventStoreAccess() {
+        let authorizationStatus = EKEventStore.authorizationStatusForEntityType(EKEntityType.Event)
+        switch authorizationStatus {
+        case EKAuthorizationStatus.Denied:
+            break
+        case EKAuthorizationStatus.Restricted:
+            break
+        case EKAuthorizationStatus.Authorized:
+            setupEventView(true, error: nil)
+            break
+        case EKAuthorizationStatus.NotDetermined:
+            EKEventStore().requestAccessToEntityType(EKEntityType.Event, completion: self.setupEventView)
+            break
+        }
+    }
+    
+    func setupEventView(shouldSetup: Bool, error: NSError?) {
+        if shouldSetup {
+            eventsItem = NSMenuItem()
+            eventsItem.view = getEV()
+            menu.insertItem(eventsItem, atIndex: 2)
         }
     }
     
@@ -178,6 +214,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     func quit() {
         NSApplication.sharedApplication().terminate(self)
+    }
+    
+    func getEV() -> NSView {
+        let view = NSView()
+        view.setFrameSize(NSSize(width: 160, height: 150))
+        
+        let uev = UpcomingEventsView(frame: NSRect(x: 5, y: 0, width: 150, height: 150))
+        uev.frame.origin.y = uev.desiredHeight - 150
+        view.frame.size.height = uev.desiredHeight
+        
+        uev.needsDisplay = true
+        view.addSubview(uev)
+        
+        return view
     }
     
     func getCV() -> NSView {
