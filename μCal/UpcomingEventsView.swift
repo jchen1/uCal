@@ -127,9 +127,7 @@ class UpcomingEventsView: NSView {
         
     private(set) var desiredHeight: CGFloat = 0
     
-    
     private let dateUnitMask: NSCalendarUnit = [NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Weekday]
-    
     private let timeMask: NSCalendarUnit = [NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Weekday, NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second]
     
 }

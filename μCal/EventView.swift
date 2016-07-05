@@ -10,12 +10,6 @@ import Cocoa
 import EventKit
 
 class EventView: NSView {
-
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
-
-        // Drawing code here.
-    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
