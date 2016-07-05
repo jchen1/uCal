@@ -671,11 +671,11 @@
             <objects>
                 <viewController storyboardIdentifier="prefsViewController" id="YlM-eu-Zxz" customClass="PrefsViewController" customModule="μCal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" identifier="prefsView" id="Wai-Xp-IzW">
-                        <rect key="frame" x="0.0" y="0.0" width="275" height="100"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="127"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fjw-ba-oCU">
-                                <rect key="frame" x="100" y="20" width="155" height="22"/>
+                                <rect key="frame" x="100" y="47" width="244" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="E h:mm a" drawsBackground="YES" id="ymQ-5s-Uzu">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -685,18 +685,58 @@
                                     </connections>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QzQ-kS-18A">
-                                <rect key="frame" x="18" y="56" width="239" height="24"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="yXP-hN-2lN">
-                                    <font key="font" metaFont="system" size="16"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RuD-MU-U89">
+                                <rect key="frame" x="18" y="50" width="76" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Date format" id="PPS-ae-wFo">
+                                    <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RuD-MU-U89">
-                                <rect key="frame" x="18" y="23" width="76" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Date format" id="PPS-ae-wFo">
+                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HMZ-QO-xCO">
+                                <rect key="frame" x="350" y="44" width="25" height="25"/>
+                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yJq-gK-U84">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="helpButtonPressed:" target="YlM-eu-Zxz" id="QXs-5Y-tFw"/>
+                                </connections>
+                            </button>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ipl-ym-2cb">
+                                <rect key="frame" x="18" y="18" width="85" height="18"/>
+                                <buttonCell key="cell" type="check" title="Show icon" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Kgb-Dg-Tr7">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="checkboxPressed:" target="YlM-eu-Zxz" id="yTb-Zt-KVy"/>
+                                </connections>
+                            </button>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g1Z-it-hsX">
+                                <rect key="frame" x="107" y="18" width="101" height="18"/>
+                                <buttonCell key="cell" type="check" title="Start at login" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="IdZ-5a-iWt">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="checkboxPressed:" target="YlM-eu-Zxz" id="uJl-7r-Wi5"/>
+                                </connections>
+                            </button>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NFC-3l-q87">
+                                <rect key="frame" x="212" y="18" width="163" height="18"/>
+                                <buttonCell key="cell" type="check" title="Show upcoming events" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="jN6-w6-h0y">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="checkboxPressed:" target="YlM-eu-Zxz" id="hOd-p0-avJ"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QzQ-kS-18A">
+                                <rect key="frame" x="77" y="83" width="239" height="24"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="yXP-hN-2lN">
+                                    <font key="font" metaFont="system" size="16"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -705,12 +745,15 @@
                     </view>
                     <connections>
                         <outlet property="dateFormat" destination="fjw-ba-oCU" id="YEd-PV-5lO"/>
+                        <outlet property="iconCheckbox" destination="ipl-ym-2cb" id="ZTI-m6-oDz"/>
+                        <outlet property="loginCheckbox" destination="g1Z-it-hsX" id="blU-e6-UHN"/>
                         <outlet property="sampleDate" destination="QzQ-kS-18A" id="gwZ-dr-Vfv"/>
+                        <outlet property="upcomingCheckbox" destination="NFC-3l-q87" id="zaT-93-smS"/>
                     </connections>
                 </viewController>
                 <customObject id="qzt-81-Mfy" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="111.5" y="287"/>
+            <point key="canvasLocation" x="170.5" y="300.5"/>
         </scene>
     </scenes>
 </document>

@@ -9,7 +9,6 @@
 // 1x, bottom align at 16px, ft size 9px
 // 2x, bottom align at 32px, ft size 12px
 
-//TODO: autostart at login
 //      About page?
 
 import Cocoa
@@ -52,6 +51,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         checkAndRequestEventStoreAccess()
         
         prefs.addObserver(self, forKeyPath: "dateFormat", options: NSKeyValueObservingOptions.New, context: nil)
+        prefs.addObserver(self, forKeyPath: "showIcon", options: NSKeyValueObservingOptions.New, context: nil)
+        prefs.addObserver(self, forKeyPath: "startAtLogin", options: NSKeyValueObservingOptions.New, context: nil)
+        prefs.addObserver(self, forKeyPath: "showEvents", options: NSKeyValueObservingOptions.New, context: nil)
         
         //todo: listen to NSSystemClockDidChangeNotification
         // maybe not - we update every second anyways
@@ -69,11 +71,26 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        switch keyPath! {
-        case "dateFormat":
-            dateFormatter.dateFormat = change!["new"] as! String
-            break
-        default: break
+        if let keyPath = keyPath, change = change {
+            switch keyPath {
+            case "dateFormat":
+                dateFormatter.dateFormat = change["new"] as! String
+                break
+            case "showIcon":
+                let newValue = change["new"] as! Bool
+                toggleIcon(newValue)
+                break
+            case "startAtLogin":
+                let newValue = change["new"] as! Bool
+                toggleAutostart(newValue)
+                break
+            case "showEvents":
+                let newValue = change["new"] as! Bool
+                toggleEV(newValue)
+                break
+            default:
+                break
+            }
         }
     }
     
@@ -92,6 +109,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if !prefs.boolForKey("setupDone") {
             prefs.setBool(true, forKey: "showIcon")
             prefs.setBool(false, forKey: "startAtLogin")
+            prefs.setBool(true, forKey: "showEvents")
             prefs.setObject("EEE h:mm aa", forKey: "dateFormat")
             
             prefs.setBool(true, forKey: "setupDone")
@@ -106,16 +124,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         calendarItem.view = getCV()
         
         menu.addItem(NSMenuItem.separatorItem())
-        
         menu.addItem(NSMenuItem.separatorItem())
         
-        let loginItem = menu.addItemWithTitle("Start at login", action: #selector(AppDelegate.toggleAutostart), keyEquivalent: "")
-        loginItem!.state = prefs.boolForKey("startAtLogin") ? NSOnState : NSOffState
-        
-        let iconItem = menu.addItemWithTitle("Show icon", action: #selector(AppDelegate.toggleIcon), keyEquivalent: "")
-        iconItem!.state = prefs.boolForKey("showIcon") ? NSOnState : NSOffState
-        
-        menu.addItemWithTitle("Format clock...", action: #selector(AppDelegate.openFmtWindow), keyEquivalent: "")
+        menu.addItemWithTitle("Preferences...", action: #selector(AppDelegate.openFmtWindow), keyEquivalent: "")
 
         menu.addItem(NSMenuItem.separatorItem())
         menu.addItemWithTitle("Date & Time...", action: #selector(AppDelegate.openTimeSettings), keyEquivalent: "")
@@ -145,7 +156,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if let vc = storyboard.instantiateControllerWithIdentifier("prefsViewController") as? PrefsViewController
         {
             let myWindow = NSWindow(contentViewController: vc)
-            myWindow.title = "Format clock..."
+            myWindow.title = "µCal Preferences"
             myWindow.makeKeyAndOrderFront(self)
             myWindow.styleMask &= ~NSResizableWindowMask
             prefsWindowController = NSWindowController(window: myWindow)
@@ -172,10 +183,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     func setupEventView(shouldSetup: Bool, error: NSError?) {
-        if shouldSetup {
+        if shouldSetup && prefs.boolForKey("showEvents") {
             eventsItem = NSMenuItem()
             eventsItem.view = getEV()
             menu.insertItem(eventsItem, atIndex: 2)
+//            menu.insertItem(NSMenuItem.separatorItem(), atIndex: 3)
         }
     }
     
@@ -185,22 +197,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return UInt8(formatter.stringFromDate(date))!
     }
     
-    func toggleIcon() {
-        let showIcon = !prefs.boolForKey("showIcon")
-        let iconItem = menu.itemAtIndex(menu.indexOfItemWithTitle("Show icon"))
+    func toggleIcon(showIcon: Bool) {
         if showIcon {
             statusItem?.button?.imagePosition = NSCellImagePosition.ImageLeft
-            iconItem?.state = NSOnState
         }
         else {
             statusItem?.button?.imagePosition = NSCellImagePosition.NoImage
-            iconItem?.state = NSOffState
         }
-        prefs.setBool(showIcon, forKey: "showIcon")
     }
     
-    func toggleAutostart() {
-        let autoStart = !prefs.boolForKey("startAtLogin")
+    func toggleAutostart(autoStart: Bool) {
         let autostartItem = menu.itemAtIndex(menu.indexOfItemWithTitle("Start at login"))
         if autoStart {
             autostartItem?.state = NSOnState
@@ -208,8 +214,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         else {
             autostartItem?.state = NSOffState
         }
-        prefs.setBool(autoStart, forKey: "startAtLogin")
         SMLoginItemSetEnabled(launcherAppId, autoStart)
+    }
+    
+    func toggleEV(showEvents: Bool) {
+        if showEvents {
+            checkAndRequestEventStoreAccess()
+        }
+        else {
+            menu.removeItem(eventsItem)
+            
+        }
     }
     
     func quit() {
@@ -273,6 +288,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     func applicationWillTerminate(aNotification: NSNotification) {
         prefs.removeObserver(self, forKeyPath: "dateFormat")
+        prefs.removeObserver(self, forKeyPath: "showIcon")
+        prefs.removeObserver(self, forKeyPath: "startAtLogin")
+        prefs.removeObserver(self, forKeyPath: "showEvents")
     }
 
 
