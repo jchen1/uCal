@@ -192,7 +192,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             eventsItem = NSMenuItem()
             eventsItem.view = getEV()
             menu.insertItem(eventsItem, atIndex: 2)
-//            menu.insertItem(NSMenuItem.separatorItem(), atIndex: 3)
         }
     }
     
@@ -254,7 +253,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let view = NSView()
         view.setFrameSize(NSSize(width: 160, height: 150))
         
-        view.addSubview(CalendarView(frame: NSRect(x: 5, y: -2, width: 140, height: 150)))
+        view.addSubview(CalendarView(frame: NSRect(x: 5, y: -2, width: 150, height: 150)))
         
         return view
     }

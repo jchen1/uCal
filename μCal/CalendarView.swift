@@ -91,7 +91,7 @@ class CalendarView: NSView {
         let year = "year"
         monthLabel.attributedStringValue = getTitleString(month, year: year)
         let height = monthLabel.attributedStringValue.size().height
-        monthLabel.frame = NSRect(x: 5, y: NSMaxY(frame) - height - 1, width: 100, height: height)
+        monthLabel.frame = NSRect(x: 5, y: NSMaxY(frame) - height - 1, width: 70, height: height)
         addSubview(monthLabel)
     }
     
@@ -155,9 +155,9 @@ class CalendarView: NSView {
         
         let startY = NSMaxY(frame) - height - 3
         
-        backButton.frame = NSRect(x: 140 - 3*height - 4, y: startY, width: height, height: height)
-        todayButton.frame = NSRect(x: (140 - 2*height - 1) - 2, y: startY + 1, width: height, height: height)
-        forwardButton.frame = NSRect(x: 140 - height, y: startY - 0.5, width: height, height: height)
+        backButton.frame = NSRect(x: 150 - 3*height - 4, y: startY, width: height, height: height)
+        todayButton.frame = NSRect(x: (150 - 2*height - 1) - 2, y: startY + 1, width: height, height: height)
+        forwardButton.frame = NSRect(x: 150 - height, y: startY - 0.5, width: height, height: height)
         
         self.addSubview(backButton)
         self.addSubview(todayButton)

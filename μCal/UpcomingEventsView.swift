@@ -67,9 +67,10 @@ class UpcomingEventsView: NSView {
         let separatorString = NSMutableAttributedString(string: firstPart + secondPart)
         let bFont = NSFont.boldSystemFontOfSize(NSFont.smallSystemFontSize() - 2)
         let font = NSFont.systemFontOfSize(NSFont.smallSystemFontSize() - 2)
+
         separatorString.addAttributes([NSFontAttributeName: bFont], range: (separatorString.string as NSString).rangeOfString(firstPart))
         separatorString.addAttributes([NSFontAttributeName: font], range: (separatorString.string as NSString).rangeOfString(secondPart))
-        
+
         separator.attributedStringValue = separatorString
         return separator
     }
@@ -93,7 +94,7 @@ class UpcomingEventsView: NSView {
                     curDay = event.startDate
                 }
                 let height = EventView.getRequiredHeight(event)
-                let evt = EventView(frame: NSRect(x: 0, y: curY - height, width: NSMaxX(bounds) - 5, height: height), event: event)
+                let evt = EventView(frame: NSRect(x: 0, y: curY - height, width: NSMaxX(bounds), height: height), event: event)
             
                 if curY - height < 0 {
                     break
