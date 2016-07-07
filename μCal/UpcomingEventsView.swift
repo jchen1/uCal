@@ -23,10 +23,6 @@ class UpcomingEventsView: NSView {
         }
     }
     
-    override func mouseUp(theEvent: NSEvent) {
-        NSWorkspace.sharedWorkspace().openURL(NSURL(string: "ical://")!)
-    }
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -52,19 +48,17 @@ class UpcomingEventsView: NSView {
         separator.bordered = false
         separator.drawsBackground = false
         separator.editable = false
-        var firstPart = ""
+        var firstPart = " • "
         
         if calendar.isDateInToday(date) {
-            firstPart = "Today"
+            firstPart = "Today" + firstPart
         }
         else if calendar.isDateInTomorrow(date) {
-            firstPart = "Tomorrow"
+            firstPart = "Tomorrow" + firstPart
         }
         else {
-            firstPart = calendar.weekdaySymbols[calendar.components(dateUnitMask, fromDate: date).weekday - 1]
+            firstPart = calendar.weekdaySymbols[calendar.component(NSCalendarUnit.Weekday, fromDate: date) - 1] + firstPart
         }
-        
-        firstPart += " • "
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "M-dd-yy"
@@ -82,7 +76,7 @@ class UpcomingEventsView: NSView {
     
     private func drawEvents() {
         var curY = NSMaxY(bounds)
-        events = (NSArray(array: events).sortedArrayUsingSelector(#selector(EKEvent.compareStartDateWithEvent)) as! [EKEvent])
+        events = NSArray(array: events).sortedArrayUsingSelector(#selector(EKEvent.compareStartDateWithEvent)) as! [EKEvent]
         
         if events.count > 0 {
             var curDay = events[0].startDate

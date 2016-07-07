@@ -129,6 +129,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.addItemWithTitle("Preferences...", action: #selector(AppDelegate.openFmtWindow), keyEquivalent: "")
 
         menu.addItem(NSMenuItem.separatorItem())
+        menu.addItemWithTitle("Open Calendar...", action: #selector(AppDelegate.openCalendar), keyEquivalent: "")
         menu.addItemWithTitle("Date & Time...", action: #selector(AppDelegate.openTimeSettings), keyEquivalent: "")
         
         menu.addItem(NSMenuItem.separatorItem())
@@ -139,6 +140,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     func openTimeSettings() {
         NSWorkspace.sharedWorkspace().openURL(NSURL.fileURLWithPath("/System/Library/PreferencePanes/DateAndTime.prefPane"))
+    }
+    
+    func openCalendar() {
+        NSWorkspace.sharedWorkspace().openURL(NSURL(string: "ical://")!)
     }
     
     func menuWillOpen(menu: NSMenu) {

@@ -32,12 +32,13 @@ class EventView: NSView {
         let lFont = NSFont.systemFontOfSize(NSFont.smallSystemFontSize() - 1)
         let bubbleFont = NSFont.boldSystemFontOfSize(NSFont.systemFontSize())
         let height = CalendarView.lineHeightForFont(font)
+        let smallHeight = CalendarView.lineHeightForFont(lFont)
         let bubbleHeight = CalendarView.lineHeightForFont(bubbleFont)
         
         titleField = NSTextField(frame: NSRect(x: height*3/2, y: NSMaxY(bounds) - height, width: NSMaxX(bounds) * 3/5 - height*3/2, height: height))
         bubbleField = NSTextField(frame: NSRect(x: 0, y: NSMaxY(bounds) - (bubbleHeight - 2), width: height*3/2, height: bubbleHeight))
-        locationField = NSTextField(frame: NSRect(x: height*3/2, y: NSMaxY(bounds) - 2*height, width: NSMaxX(bounds) - height*3/2, height: CalendarView.lineHeightForFont(lFont)))
-        timeField = NSTextField(frame: NSRect(x: NSMaxX(bounds) * 3/5, y: NSMaxY(bounds) - height, width: NSMaxX(bounds) * 2/5, height: height))
+        locationField = NSTextField(frame: NSRect(x: height*3/2, y: NSMaxY(bounds) - 2*height, width: NSMaxX(bounds) - height*3/2, height: smallHeight))
+        timeField = NSTextField(frame: NSRect(x: NSMaxX(bounds) * 3/5, y: NSMaxY(bounds) - height, width: NSMaxX(bounds) * 2/5, height: smallHeight))
         
         titleField.cell!.lineBreakMode = NSLineBreakMode.ByTruncatingTail
         locationField.cell!.lineBreakMode = NSLineBreakMode.ByTruncatingTail
@@ -81,7 +82,7 @@ class EventView: NSView {
             timeField.bordered = false
             timeField.drawsBackground = false
             timeField.alignment = NSTextAlignment.Right
-            timeField.font = font
+            timeField.font = lFont
             addSubview(timeField)
         }
         else {
