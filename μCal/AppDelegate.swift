@@ -19,7 +19,7 @@ import ServiceManagement
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     var statusBar = NSStatusBar.systemStatusBar()
-    var statusItem: NSStatusItem?
+    let statusItem: NSStatusItem
     var menu = NSMenu()
     var calendarItem = NSMenuItem()
     var eventsItem = NSMenuItem()
@@ -30,16 +30,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var lastDay:UInt8 = 0
     var prefsWindowController: NSWindowController?
     let launcherAppId = "com.jchen.uCalHelper"
+    
+    override init() {
+        statusItem = statusBar.statusItemWithLength(NSVariableStatusItemLength, priority: NSStatusBarItemPriority.System)
+        super.init()
+    }
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {        
         setupPreferences()
         lastDay = getDay(NSDate())
         
-        statusItem = statusBar.statusItemWithLength(NSVariableStatusItemLength, priority: NSStatusBarItemPriority.System)
-        statusItem?.button?.image = getNumberedIcon()
-        statusItem?.button?.image?.template = true
-        statusItem?.button?.imagePosition = prefs.boolForKey("showIcon") ? NSCellImagePosition.ImageLeft : NSCellImagePosition.NoImage
-        statusItem?.button?.setFrameOrigin(NSPoint(x: 0, y: 1))
+        statusItem.button?.image = getNumberedIcon()
+        statusItem.button?.image?.template = true
+        statusItem.button?.imagePosition = prefs.boolForKey("showIcon") ? NSCellImagePosition.ImageLeft : NSCellImagePosition.NoImage
+        statusItem.button?.setFrameOrigin(NSPoint(x: 0, y: 1))
         
         dateFormatter.dateFormat = prefs.stringForKey("dateFormat")
                 
@@ -49,11 +53,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         setupHelper()
         
         checkAndRequestEventStoreAccess()
-        
-        prefs.addObserver(self, forKeyPath: "dateFormat", options: NSKeyValueObservingOptions.New, context: nil)
-        prefs.addObserver(self, forKeyPath: "showIcon", options: NSKeyValueObservingOptions.New, context: nil)
-        prefs.addObserver(self, forKeyPath: "startAtLogin", options: NSKeyValueObservingOptions.New, context: nil)
-        prefs.addObserver(self, forKeyPath: "showEvents", options: NSKeyValueObservingOptions.New, context: nil)
         
         //todo: listen to NSSystemClockDidChangeNotification
         // maybe not - we update every second anyways
@@ -114,10 +113,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             
             prefs.setBool(true, forKey: "setupDone")
         }
+        prefs.addObserver(self, forKeyPath: "dateFormat", options: NSKeyValueObservingOptions.New, context: nil)
+        prefs.addObserver(self, forKeyPath: "showIcon", options: NSKeyValueObservingOptions.New, context: nil)
+        prefs.addObserver(self, forKeyPath: "startAtLogin", options: NSKeyValueObservingOptions.New, context: nil)
+        prefs.addObserver(self, forKeyPath: "showEvents", options: NSKeyValueObservingOptions.New, context: nil)
     }
     
     func setupMenu() {
-        statusItem?.menu = menu
+        statusItem.menu = menu
         menu.minimumWidth = 160
         
         calendarItem = menu.addItemWithTitle("cal", action: nil, keyEquivalent: "")!
@@ -203,10 +206,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     func toggleIcon(showIcon: Bool) {
         if showIcon {
-            statusItem?.button?.imagePosition = NSCellImagePosition.ImageLeft
+            statusItem.button?.imagePosition = NSCellImagePosition.ImageLeft
         }
         else {
-            statusItem?.button?.imagePosition = NSCellImagePosition.NoImage
+            statusItem.button?.imagePosition = NSCellImagePosition.NoImage
         }
     }
     
@@ -279,14 +282,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let currentTime = NSDate()
         let timeString = dateFormatter.stringFromDate(currentTime)
         
-        statusItem?.button?.title = timeString
+        statusItem.button?.title = timeString
         //TODO: make this work
-        statusItem?.button?.alternateTitle = timeString
+        statusItem.button?.alternateTitle = timeString
         
         if (lastDay != getDay(currentTime)) {
             lastDay = getDay(currentTime)
-            statusItem?.button?.image = getNumberedIcon()
-            statusItem?.button?.image?.template = true
+            statusItem.button?.image = getNumberedIcon()
+            statusItem.button?.image?.template = true
         }
     }
 

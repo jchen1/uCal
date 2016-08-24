@@ -297,7 +297,7 @@ class CalendarView: NSView {
             let day = makeDay("T", color: NSColor.blackColor(), font: font)
             day.frame = NSRect(x: curX, y: curY, width: width, height: height)
             curX += width
-            if curX >= self.frame.width {
+            if curX + width >= self.frame.width {
                 curX = 0
                 curY -= (height + 5)
             }
@@ -305,66 +305,6 @@ class CalendarView: NSView {
             self.addSubview(day)
             days.append(day)
         }
-    }
-    
-    func getDayViewsForDate(date: NSDate) -> [NSTextField] {
-        var dayViews: [NSTextField] = []
-        let firstOfMonth = firstDayOfMonthForDate(date)
-        
-        let lastMonth = firstDayOfMonthForDate(date)
-        let dateComponents = calendar.components(dateUnitMask, fromDate: dateValue)
-        let currentDate = NSDate()
-        let currentComponents = calendar.components(dateUnitMask, fromDate: currentDate)
-        
-        lastMonth.month -= 1
-        if lastMonth.month == 0 {
-            lastMonth.month = 12
-        }
-        
-        var curDay : Int = daysCountInMonthForDay(lastMonth)
-        for _ in 1..<firstOfMonth.weekday {
-            let view = makeDay(String(curDay), color: getGrayColor(), font: font)
-            
-            if (dateComponents.year == currentComponents.year &&
-                dateComponents.month == currentComponents.month + 1 &&
-                curDay == currentComponents.day) {
-                view.font = weekFont
-                view.textColor = getSelectedColor()
-            }
-            
-            curDay -= 1
-            dayViews.insert(view, atIndex: 0)
-        }
-        curDay = 1
-        for _ in 0..<daysCountInMonthForDay(firstOfMonth) {
-            let view = makeDay(String(curDay), color: getPrimaryColor(), font: font)
-            
-            if (dateComponents.year == currentComponents.year &&
-                dateComponents.month == currentComponents.month &&
-                curDay == currentComponents.day) {
-                view.font = weekFont
-                view.textColor = getSelectedColor()
-            }
-            
-            curDay += 1
-            dayViews.append(view)
-        }
-        curDay = 1
-        for _ in (firstOfMonth.weekday + daysCountInMonthForDay(firstOfMonth))..<43 {
-            let view = makeDay(String(curDay), color: getGrayColor(), font: font)
-            
-            if (dateComponents.year == currentComponents.year &&
-                dateComponents.month == currentComponents.month - 1 &&
-                curDay == currentComponents.day) {
-                view.font = weekFont
-                view.textColor = getSelectedColor()
-            }
-            
-            curDay += 1
-            dayViews.append(view)
-        }
-        
-        return dayViews
     }
     
     func darkModeChanged() {
