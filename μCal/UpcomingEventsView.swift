@@ -13,8 +13,8 @@ class UpcomingEventsView: NSView {
     
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
-        let authorizationStatus = EKEventStore.authorizationStatusForEntityType(EKEntityType.Event)
-        if authorizationStatus == EKAuthorizationStatus.Authorized {
+        let authorizationStatus = EKEventStore.authorizationStatus(for: EKEntityType.event)
+        if authorizationStatus == EKAuthorizationStatus.authorized {
             clear()
             getEvents()
         }
@@ -34,20 +34,20 @@ class UpcomingEventsView: NSView {
     }
     
     func getEvents() {
-        let components = calendar.components(timeMask, fromDate: NSDate())
+        let components = (calendar as NSCalendar).components(timeMask, from: Date())
         let nextWeek = oneWeekLaterDayForDay(components)
         
-        let pred = eventStore.predicateForEventsWithStartDate(calendar.dateFromComponents(components)!, endDate: nextWeek, calendars: nil)
+        let pred = eventStore.predicateForEvents(withStart: calendar.date(from: components)!, end: nextWeek, calendars: nil)
         
-        events = eventStore.eventsMatchingPredicate(pred)
+        events = eventStore.events(matching: pred)
         drawEvents()
     }
     
-    private func getSeparator(date: NSDate) -> NSView {
+    fileprivate func getSeparator(_ date: Date) -> NSView {
         let separator = NSTextField(frame: NSRect(x: 0, y: 0, width: NSMaxX(bounds), height: 17))
-        separator.bordered = false
+        separator.isBordered = false
         separator.drawsBackground = false
-        separator.editable = false
+        separator.isEditable = false
         var firstPart = " • "
         
         if calendar.isDateInToday(date) {
@@ -57,27 +57,27 @@ class UpcomingEventsView: NSView {
             firstPart = "Tomorrow" + firstPart
         }
         else {
-            firstPart = calendar.weekdaySymbols[calendar.component(NSCalendarUnit.Weekday, fromDate: date) - 1] + firstPart
+            firstPart = calendar.weekdaySymbols[(calendar as NSCalendar).component(NSCalendar.Unit.weekday, from: date) - 1] + firstPart
         }
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "M-dd-yy"
-        let secondPart = dateFormatter.stringFromDate(date)
+        let secondPart = dateFormatter.string(from: date)
         
         let separatorString = NSMutableAttributedString(string: firstPart + secondPart)
-        let bFont = NSFont.boldSystemFontOfSize(NSFont.smallSystemFontSize() - 2)
-        let font = NSFont.systemFontOfSize(NSFont.smallSystemFontSize() - 2)
+        let bFont = NSFont.boldSystemFont(ofSize: NSFont.smallSystemFontSize() - 2)
+        let font = NSFont.systemFont(ofSize: NSFont.smallSystemFontSize() - 2)
 
-        separatorString.addAttributes([NSFontAttributeName: bFont], range: (separatorString.string as NSString).rangeOfString(firstPart))
-        separatorString.addAttributes([NSFontAttributeName: font], range: (separatorString.string as NSString).rangeOfString(secondPart))
+        separatorString.addAttributes([NSFontAttributeName: bFont], range: (separatorString.string as NSString).range(of: firstPart))
+        separatorString.addAttributes([NSFontAttributeName: font], range: (separatorString.string as NSString).range(of: secondPart))
 
         separator.attributedStringValue = separatorString
         return separator
     }
     
-    private func drawEvents() {
+    fileprivate func drawEvents() {
         var curY = NSMaxY(bounds)
-        events = NSArray(array: events).sortedArrayUsingSelector(#selector(EKEvent.compareStartDateWithEvent)) as! [EKEvent]
+        events = NSArray(array: events).sortedArray(using: #selector(EKEvent.compareStartDate(with:))) as! [EKEvent]
         
         if events.count > 0 {
             var curDay = events[0].startDate
@@ -86,7 +86,7 @@ class UpcomingEventsView: NSView {
             curY -= 17
             addSubview(sep)
             for event in events {
-                if !calendar.isDate(curDay, inSameDayAsDate: event.startDate) {
+                if !calendar.isDate(curDay, inSameDayAs: event.startDate) {
                     sep = getSeparator(event.startDate)
                     sep.setFrameOrigin(NSPoint(x: 5, y: curY - 19))
                     curY -= 17
@@ -107,22 +107,22 @@ class UpcomingEventsView: NSView {
         desiredHeight = NSMaxY(bounds) - curY
     }
     
-    private func oneWeekLaterDayForDay(dateComponents: NSDateComponents) -> NSDate {
-        let newDateComponents = NSDateComponents()
-        newDateComponents.day = dateComponents.day + 7
+    fileprivate func oneWeekLaterDayForDay(_ dateComponents: DateComponents) -> Date {
+        var newDateComponents = DateComponents()
+        newDateComponents.day = dateComponents.day! + 7
         newDateComponents.month = dateComponents.month
         newDateComponents.year = dateComponents.year
-        return self.calendar.dateFromComponents(newDateComponents)!
+        return self.calendar.date(from: newDateComponents)!
     }
     
-    private var events: [EKEvent] = []
-    private var eventViews: [EventView] = []
-    private let eventStore = EKEventStore()
-    private let calendar = NSCalendar.currentCalendar()
+    fileprivate var events: [EKEvent] = []
+    fileprivate var eventViews: [EventView] = []
+    fileprivate let eventStore = EKEventStore()
+    fileprivate let calendar = Calendar.current
         
-    private(set) var desiredHeight: CGFloat = 0
+    fileprivate(set) var desiredHeight: CGFloat = 0
     
-    private let dateUnitMask: NSCalendarUnit = [NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Weekday]
-    private let timeMask: NSCalendarUnit = [NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Weekday, NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second]
+    fileprivate let dateUnitMask: NSCalendar.Unit = [NSCalendar.Unit.year, NSCalendar.Unit.month, NSCalendar.Unit.day, NSCalendar.Unit.weekday]
+    fileprivate let timeMask: NSCalendar.Unit = [NSCalendar.Unit.year, NSCalendar.Unit.month, NSCalendar.Unit.day, NSCalendar.Unit.weekday, NSCalendar.Unit.hour, NSCalendar.Unit.minute, NSCalendar.Unit.second]
     
 }

@@ -12,9 +12,9 @@ import ServiceManagement
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         let mainAppId = "com.jchen.uCal"
-        let running = NSWorkspace.sharedWorkspace().runningApplications
+        let running = NSWorkspace.shared().runningApplications
         var alreadyRunning = false
         
         for app in running {
@@ -27,9 +27,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.quit()
         }
         else {
-            NSDistributedNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.quit), name: "uCalHelperKillNotification", object: mainAppId)
+            DistributedNotificationCenter.default().addObserver(self, selector: #selector(AppDelegate.quit), name: Notification.Name(rawValue: "uCalHelperKillNotification"), object: mainAppId)
             
-            let path = NSBundle.mainBundle().bundlePath as NSString
+            let path = Bundle.main.bundlePath as NSString
             var components = path.pathComponents
             components.removeLast()
             components.removeLast()
@@ -37,16 +37,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             components.append("MacOS")
             components.append("μCal")
             
-            let newPath = NSString.pathWithComponents(components)
-            NSWorkspace.sharedWorkspace().launchApplication(newPath)
+            let newPath = NSString.path(withComponents: components)
+            NSWorkspace.shared().launchApplication(newPath)
         }
     }
     
     func quit() {
-        NSApplication.sharedApplication().terminate(self);
+        NSApplication.shared().terminate(self);
     }
 
-    func applicationWillTerminate(aNotification: NSNotification) {
+    func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
 

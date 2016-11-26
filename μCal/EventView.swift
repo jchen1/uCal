@@ -15,10 +15,10 @@ class EventView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    class func getRequiredHeight(event: EKEvent) -> CGFloat {
-        var height = CalendarView.lineHeightForFont(NSFont.systemFontOfSize(NSFont.smallSystemFontSize()))
+    class func getRequiredHeight(_ event: EKEvent) -> CGFloat {
+        var height = CalendarView.lineHeightForFont(NSFont.systemFont(ofSize: NSFont.smallSystemFontSize()))
         if (event.location) != nil {
-            height += CalendarView.lineHeightForFont(NSFont.systemFontOfSize(NSFont.smallSystemFontSize() - 1))
+            height += CalendarView.lineHeightForFont(NSFont.systemFont(ofSize: NSFont.smallSystemFontSize() - 1))
         }
         return height
     }
@@ -27,10 +27,10 @@ class EventView: NSView {
         self.event = event
         super.init(frame: frameRect)
         
-        let font = NSFont.systemFontOfSize(NSFont.smallSystemFontSize(), weight: NSFontWeightLight)
-        let bFont = NSFont.boldSystemFontOfSize(NSFont.smallSystemFontSize())
-        let lFont = NSFont.systemFontOfSize(NSFont.smallSystemFontSize() - 1)
-        let bubbleFont = NSFont.boldSystemFontOfSize(NSFont.systemFontSize())
+        let font = NSFont.systemFont(ofSize: NSFont.smallSystemFontSize(), weight: NSFontWeightLight)
+        let bFont = NSFont.boldSystemFont(ofSize: NSFont.smallSystemFontSize())
+        let lFont = NSFont.systemFont(ofSize: NSFont.smallSystemFontSize() - 1)
+        let bubbleFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize())
         let height = CalendarView.lineHeightForFont(font)
         let smallHeight = CalendarView.lineHeightForFont(lFont)
         let bubbleHeight = CalendarView.lineHeightForFont(bubbleFont)
@@ -40,48 +40,48 @@ class EventView: NSView {
         locationField = NSTextField(frame: NSRect(x: height*3/2, y: NSMaxY(bounds) - 2*height, width: NSMaxX(bounds) - height*3/2, height: smallHeight))
         timeField = NSTextField(frame: NSRect(x: NSMaxX(bounds) * 3/5, y: NSMaxY(bounds) - height, width: NSMaxX(bounds) * 2/5, height: smallHeight))
         
-        titleField.cell!.lineBreakMode = NSLineBreakMode.ByTruncatingTail
-        locationField.cell!.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+        titleField.cell!.lineBreakMode = NSLineBreakMode.byTruncatingTail
+        locationField.cell!.lineBreakMode = NSLineBreakMode.byTruncatingTail
         
         self.height = height + 5
         
         bubbleField.textColor = event.calendar.color
         bubbleField.stringValue = "◉"
-        bubbleField.editable = false
-        bubbleField.bordered = false
+        bubbleField.isEditable = false
+        bubbleField.isBordered = false
         bubbleField.drawsBackground = false
-        bubbleField.alignment = NSTextAlignment.Right
+        bubbleField.alignment = NSTextAlignment.right
         bubbleField.font = bubbleFont
         
-        titleField.textColor = NSColor.textColor()
+        titleField.textColor = NSColor.textColor
         titleField.stringValue = event.title
-        titleField.editable = false
-        titleField.bordered = false
+        titleField.isEditable = false
+        titleField.isBordered = false
         titleField.drawsBackground = false
-        titleField.alignment = NSTextAlignment.Left
+        titleField.alignment = NSTextAlignment.left
         titleField.font = bFont
         titleField.toolTip = event.title
         
         if let loc = event.location {
-            locationField.textColor = NSColor.secondaryLabelColor()
+            locationField.textColor = NSColor.secondaryLabelColor
             locationField.stringValue = loc
-            locationField.editable = false
-            locationField.bordered = false
+            locationField.isEditable = false
+            locationField.isBordered = false
             locationField.drawsBackground = false
-            locationField.alignment = NSTextAlignment.Left
-            locationField.font = NSFontManager.sharedFontManager().convertFont(lFont, toHaveTrait: NSFontTraitMask.ItalicFontMask)
+            locationField.alignment = NSTextAlignment.left
+            locationField.font = NSFontManager.shared().convert(lFont, toHaveTrait: NSFontTraitMask.italicFontMask)
             self.height += height
             locationField.toolTip = loc
             addSubview(locationField)
         }
 
-        if !event.allDay {
-            timeField.textColor = NSColor.secondaryLabelColor()
+        if !event.isAllDay {
+            timeField.textColor = NSColor.secondaryLabelColor
             timeField.stringValue = getTime(event.startDate)
-            timeField.editable = false
-            timeField.bordered = false
+            timeField.isEditable = false
+            timeField.isBordered = false
             timeField.drawsBackground = false
-            timeField.alignment = NSTextAlignment.Right
+            timeField.alignment = NSTextAlignment.right
             timeField.font = lFont
             addSubview(timeField)
         }
@@ -93,17 +93,17 @@ class EventView: NSView {
         addSubview(bubbleField)
     }
     
-    private(set) var height: CGFloat = 0
+    fileprivate(set) var height: CGFloat = 0
     
-    private func getTime(startDate: NSDate) -> String {
-        let dateFormatter = NSDateFormatter()
+    fileprivate func getTime(_ startDate: Date) -> String {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mmaa"
-        return dateFormatter.stringFromDate(startDate)
+        return dateFormatter.string(from: startDate)
     }
     
-    private var bubbleField: NSTextField = NSTextField(frame: NSZeroRect)
-    private var titleField: NSTextField = NSTextField(frame: NSZeroRect)
-    private var locationField: NSTextField = NSTextField(frame: NSZeroRect)
-    private var timeField: NSTextField = NSTextField(frame: NSZeroRect)
-    private var event: EKEvent
+    fileprivate var bubbleField: NSTextField = NSTextField(frame: NSZeroRect)
+    fileprivate var titleField: NSTextField = NSTextField(frame: NSZeroRect)
+    fileprivate var locationField: NSTextField = NSTextField(frame: NSZeroRect)
+    fileprivate var timeField: NSTextField = NSTextField(frame: NSZeroRect)
+    fileprivate var event: EKEvent
 }

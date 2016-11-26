@@ -16,33 +16,33 @@ class PrefsViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet weak var loginCheckbox: NSButton!
     @IBOutlet weak var upcomingCheckbox: NSButton!
     
-    let prefs = NSUserDefaults.standardUserDefaults()
-    let dateFormatter = NSDateFormatter()
-    var timer = NSTimer()
+    let prefs = UserDefaults.standard
+    let dateFormatter = DateFormatter()
+    var timer = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        dateFormat.stringValue = prefs.stringForKey("dateFormat")!
+        dateFormat.stringValue = prefs.string(forKey: "dateFormat")!
         
-        dateFormatter.dateFormat = prefs.stringForKey("dateFormat")!
-        dateFormatter.lenient = false;
+        dateFormatter.dateFormat = prefs.string(forKey: "dateFormat")!
+        dateFormatter.isLenient = false;
         
-        sampleDate.stringValue = dateFormatter.stringFromDate(NSDate())
+        sampleDate.stringValue = dateFormatter.string(from: Date())
         
-        iconCheckbox.state = prefs.boolForKey("showIcon") ? NSOnState : NSOffState
-        loginCheckbox.state = prefs.boolForKey("startAtLogin") ? NSOnState : NSOffState
-        upcomingCheckbox.state = prefs.boolForKey("showEvents") ? NSOnState : NSOffState
+        iconCheckbox.state = prefs.bool(forKey: "showIcon") ? NSOnState : NSOffState
+        loginCheckbox.state = prefs.bool(forKey: "startAtLogin") ? NSOnState : NSOffState
+        upcomingCheckbox.state = prefs.bool(forKey: "showEvents") ? NSOnState : NSOffState
         
         dateFormat.delegate = self
         setupTimer()
     }
     
-    override func controlTextDidChange(notification: NSNotification){
+    override func controlTextDidChange(_ notification: Notification){
         dateFormatter.dateFormat = dateFormat.stringValue;
-        sampleDate.stringValue = dateFormatter.stringFromDate(NSDate())
+        sampleDate.stringValue = dateFormatter.string(from: Date())
     }
     
-    @IBAction func checkboxPressed(sender: NSButton) {
+    @IBAction func checkboxPressed(_ sender: NSButton) {
         var key : String? = nil
         switch sender.title {
         case "Show icon":
@@ -58,34 +58,34 @@ class PrefsViewController: NSViewController, NSTextFieldDelegate {
         }
         
         if let key = key {
-            prefs.setBool(sender.state == NSOnState, forKey: key)
+            prefs.set(sender.state == NSOnState, forKey: key)
         }
     }
     
-    @IBAction func dateFormatChanged(sender: AnyObject) {
-        prefs.setObject(dateFormat.stringValue, forKey: "dateFormat")
+    @IBAction func dateFormatChanged(_ sender: AnyObject) {
+        prefs.set(dateFormat.stringValue, forKey: "dateFormat")
     }
-    @IBAction func helpButtonPressed(sender: AnyObject) {
-        NSWorkspace.sharedWorkspace().openURL(NSURL(string: "http://unicode.org/reports/tr35/tr35-10.html#Date_Format_Patterns")!)
+    @IBAction func helpButtonPressed(_ sender: AnyObject) {
+        NSWorkspace.shared().open(URL(string: "http://unicode.org/reports/tr35/tr35-10.html#Date_Format_Patterns")!)
     }
     
     func setupTimer() {
-        let time = NSDate();
+        let time = Date();
         
         let currentSecond = time.timeIntervalSinceReferenceDate
         let timeToAdd = ceil(currentSecond) - currentSecond + 0.1
         
-        timer = NSTimer.init(fireDate: NSDate.init(timeInterval: timeToAdd, sinceDate: time), interval: 1.0, target: self, selector: #selector(PrefsViewController.updateTime), userInfo: nil, repeats: true)
+        timer = Timer.init(fireAt: Date.init(timeInterval: timeToAdd, since: time), interval: 1.0, target: self, selector: #selector(PrefsViewController.updateTime), userInfo: nil, repeats: true)
         
-        NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
+        RunLoop.current.add(timer, forMode: RunLoopMode.defaultRunLoopMode)
     }
     
     func updateTime() {
-        sampleDate.stringValue = dateFormatter.stringFromDate(NSDate())
+        sampleDate.stringValue = dateFormatter.string(from: Date())
     }
     
     override func viewWillDisappear() {
-        prefs.setObject(dateFormat.stringValue, forKey: "dateFormat")
+        prefs.set(dateFormat.stringValue, forKey: "dateFormat")
     }
     
 }

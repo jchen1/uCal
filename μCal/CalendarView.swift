@@ -11,10 +11,10 @@ import Cocoa
 class CalendarView: NSView {
     
     required init?(coder: NSCoder) {
-        font = NSFont.systemFontOfSize(9.0)
-        weekFont = NSFont.boldSystemFontOfSize(9.0)
-        monthFont = NSFont.boldSystemFontOfSize(NSFont.systemFontSize())
-        yearFont = NSFont.systemFontOfSize(NSFont.systemFontSize())
+        font = NSFont.systemFont(ofSize: 9.0)
+        weekFont = NSFont.boldSystemFont(ofSize: 9.0)
+        monthFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize())
+        yearFont = NSFont.systemFont(ofSize: NSFont.systemFontSize())
         
         super.init(coder: coder)
         makeWeekdays()
@@ -23,15 +23,15 @@ class CalendarView: NSView {
         makeMonthLabel()
 
         updateAppearance()
-        NSDistributedNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CalendarView.darkModeChanged), name: "AppleInterfaceThemeChangedNotification", object: nil)
-        NSDistributedNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CalendarView.calendarUpdated), name: "NSCurrentLocaleDidChangeNotification", object: nil)
+        DistributedNotificationCenter.default().addObserver(self, selector: #selector(CalendarView.darkModeChanged), name: NSNotification.Name(rawValue: "AppleInterfaceThemeChangedNotification"), object: nil)
+        DistributedNotificationCenter.default().addObserver(self, selector: #selector(CalendarView.calendarUpdated), name: NSNotification.Name(rawValue: "NSCurrentLocaleDidChangeNotification"), object: nil)
     }
     
     override init(frame frameRect: NSRect) {
-        font = NSFont.systemFontOfSize(9.0)
-        weekFont = NSFont.boldSystemFontOfSize(9.0)
-        monthFont = NSFont.boldSystemFontOfSize(NSFont.systemFontSize())
-        yearFont = NSFont.systemFontOfSize(NSFont.systemFontSize())
+        font = NSFont.systemFont(ofSize: 9.0)
+        weekFont = NSFont.boldSystemFont(ofSize: 9.0)
+        monthFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize())
+        yearFont = NSFont.systemFont(ofSize: NSFont.systemFontSize())
     
         super.init(frame: frameRect)
         makeWeekdays()
@@ -40,52 +40,52 @@ class CalendarView: NSView {
         makeMonthLabel()
 
         updateAppearance()
-        NSDistributedNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CalendarView.darkModeChanged), name: "AppleInterfaceThemeChangedNotification", object: nil)
-        NSDistributedNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CalendarView.calendarUpdated), name: "NSCurrentLocaleDidChangeNotification", object: nil)
+        DistributedNotificationCenter.default().addObserver(self, selector: #selector(CalendarView.darkModeChanged), name: NSNotification.Name(rawValue: "AppleInterfaceThemeChangedNotification"), object: nil)
+        DistributedNotificationCenter.default().addObserver(self, selector: #selector(CalendarView.calendarUpdated), name: NSNotification.Name(rawValue: "NSCurrentLocaleDidChangeNotification"), object: nil)
     }
     
-    var dateValue = NSDate()
+    var dateValue = Date()
     
-    private var font: NSFont
-    private var weekFont: NSFont
-    private var monthFont: NSFont
-    private var yearFont: NSFont
+    fileprivate var font: NSFont
+    fileprivate var weekFont: NSFont
+    fileprivate var monthFont: NSFont
+    fileprivate var yearFont: NSFont
     
-    private var monthLabel = NSTextField(frame: NSZeroRect)
-    private var weekdayLabels: [NSTextField] = []
-    private var days: [NSTextField] = []
+    fileprivate var monthLabel = NSTextField(frame: NSZeroRect)
+    fileprivate var weekdayLabels: [NSTextField] = []
+    fileprivate var days: [NSTextField] = []
     
-    private var backButton = NSButton(frame: NSZeroRect)
-    private var todayButton = NSButton(frame: NSZeroRect)
-    private var forwardButton = NSButton(frame: NSZeroRect)
-    private let buttonFont = NSFont.boldSystemFontOfSize(NSFont.smallSystemFontSize())
+    fileprivate var backButton = NSButton(frame: NSZeroRect)
+    fileprivate var todayButton = NSButton(frame: NSZeroRect)
+    fileprivate var forwardButton = NSButton(frame: NSZeroRect)
+    fileprivate let buttonFont = NSFont.boldSystemFont(ofSize: NSFont.smallSystemFontSize())
     
-    private let dateFormatter = NSDateFormatter()
-    private let calendar = NSCalendar.autoupdatingCurrentCalendar()
-    private let dateUnitMask: NSCalendarUnit =  [NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Weekday]
-    private let dateTimeUnitMask: NSCalendarUnit =  [NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.Weekday]
+    fileprivate let dateFormatter = DateFormatter()
+    fileprivate let calendar = Calendar.autoupdatingCurrent
+    fileprivate let dateUnitMask: NSCalendar.Unit =  [NSCalendar.Unit.year, NSCalendar.Unit.month, NSCalendar.Unit.day, NSCalendar.Unit.weekday]
+    fileprivate let dateTimeUnitMask: NSCalendar.Unit =  [NSCalendar.Unit.year, NSCalendar.Unit.month, NSCalendar.Unit.day, NSCalendar.Unit.hour, NSCalendar.Unit.minute, NSCalendar.Unit.second, NSCalendar.Unit.weekday]
     
-    class func lineHeightForFont(font: NSFont) -> CGFloat {
-        let attribs = NSDictionary(object: font, forKey: NSFontAttributeName)
-        let size = "Aa".sizeWithAttributes(attribs as? [String : AnyObject])
+    class func lineHeightForFont(_ font: NSFont) -> CGFloat {
+        let attribs = NSDictionary(object: font, forKey: NSFontAttributeName as NSString)
+        let size = "Aa".size(withAttributes: attribs as? [String : AnyObject])
         return round(size.height)
     }
     
-    private func getTitleString(month: String, year: String) -> NSAttributedString {
+    fileprivate func getTitleString(_ month: String, year: String) -> NSAttributedString {
         let titleString = NSMutableAttributedString.init(string: month + " " + year)
         let monthAttribute = [NSFontAttributeName: monthFont]
         let yearAttribute = [NSFontAttributeName: yearFont]
         
-        titleString.addAttributes(monthAttribute, range: (titleString.string as NSString).rangeOfString(month))
-        titleString.addAttributes(yearAttribute, range: (titleString.string as NSString).rangeOfString(year))
+        titleString.addAttributes(monthAttribute, range: (titleString.string as NSString).range(of: month))
+        titleString.addAttributes(yearAttribute, range: (titleString.string as NSString).range(of: year))
 
         return titleString
     }
     
-    private func makeMonthLabel() {
-        monthLabel.editable = false
-        monthLabel.bordered = false
-        monthLabel.backgroundColor = NSColor.clearColor()
+    fileprivate func makeMonthLabel() {
+        monthLabel.isEditable = false
+        monthLabel.isBordered = false
+        monthLabel.backgroundColor = NSColor.clear
         
         let month = "ph"
         let year = "year"
@@ -95,20 +95,20 @@ class CalendarView: NSView {
         addSubview(monthLabel)
     }
     
-    private func updateMonthLabel() {
-        let month = self.calendar.shortMonthSymbols[self.calendar.component(NSCalendarUnit.Month, fromDate: dateValue) - 1]
-        let year = String(self.calendar.component(NSCalendarUnit.Year, fromDate: dateValue))
+    fileprivate func updateMonthLabel() {
+        let month = self.calendar.shortMonthSymbols[(self.calendar as NSCalendar).component(NSCalendar.Unit.month, from: dateValue) - 1]
+        let year = String((self.calendar as NSCalendar).component(NSCalendar.Unit.year, from: dateValue))
         monthLabel.textColor = getPrimaryColor()
         monthLabel.attributedStringValue = getTitleString(month, year: year)
     }
     
-    private func makeButtons() {
+    fileprivate func makeButtons() {
         let attrs = [NSForegroundColorAttributeName: getPrimaryColor(), NSFontAttributeName: buttonFont]
         
         let backString = NSMutableAttributedString(string: "◀", attributes: attrs)
         let todayString = NSMutableAttributedString(string: "●", attributes: [
             NSForegroundColorAttributeName: getPrimaryColor(),
-            NSFontAttributeName: NSFont.boldSystemFontOfSize(18.0)
+            NSFontAttributeName: NSFont.boldSystemFont(ofSize: 18.0)
             ])
         let forwardString = NSMutableAttributedString(string: "▶", attributes: attrs)
         
@@ -121,7 +121,7 @@ class CalendarView: NSView {
         let backAltString = NSMutableAttributedString(string: "◀", attributes: alternateAttrs)
         let todayAltString = NSMutableAttributedString(string: "●", attributes: [
             NSForegroundColorAttributeName: getSelectedColor(),
-            NSFontAttributeName: NSFont.boldSystemFontOfSize(18.0)
+            NSFontAttributeName: NSFont.boldSystemFont(ofSize: 18.0)
             ])
         let forwardAltString = NSMutableAttributedString(string: "▶", attributes: alternateAttrs)
         
@@ -129,19 +129,19 @@ class CalendarView: NSView {
         todayButton.attributedAlternateTitle = todayAltString
         forwardButton.attributedAlternateTitle = forwardAltString
         
-        backButton.alignment = NSTextAlignment.Center
-        todayButton.alignment = NSTextAlignment.Center
-        forwardButton.alignment = NSTextAlignment.Center
+        backButton.alignment = NSTextAlignment.center
+        todayButton.alignment = NSTextAlignment.center
+        forwardButton.alignment = NSTextAlignment.center
         
-        backButton.setButtonType(NSButtonType.MomentaryChangeButton)
-        todayButton.setButtonType(NSButtonType.MomentaryChangeButton)
-        forwardButton.setButtonType(NSButtonType.MomentaryChangeButton)
+        backButton.setButtonType(NSButtonType.momentaryChange)
+        todayButton.setButtonType(NSButtonType.momentaryChange)
+        forwardButton.setButtonType(NSButtonType.momentaryChange)
         
-        todayButton.enabled = calendar.compareDate(dateValue, toDate: NSDate(), toUnitGranularity: NSCalendarUnit.Month) != NSComparisonResult.OrderedSame
+        todayButton.isEnabled = (calendar as NSCalendar).compare(dateValue, to: Date(), toUnitGranularity: NSCalendar.Unit.month) != ComparisonResult.orderedSame
         
-        backButton.bordered = false
-        todayButton.bordered = false
-        forwardButton.bordered = false
+        backButton.isBordered = false
+        todayButton.isBordered = false
+        forwardButton.isBordered = false
         
         backButton.target = self;
         todayButton.target = self;
@@ -164,7 +164,7 @@ class CalendarView: NSView {
         self.addSubview(forwardButton)
     }
     
-    private func updateButtonColor(title: NSAttributedString, color: NSColor) -> NSMutableAttributedString {
+    fileprivate func updateButtonColor(_ title: NSAttributedString, color: NSColor) -> NSMutableAttributedString {
         let oneCharRange = NSRange(location: 0, length: 1)
         
         let mutableTitle = NSMutableAttributedString(attributedString: title)
@@ -174,7 +174,7 @@ class CalendarView: NSView {
         return mutableTitle
     }
     
-    @objc private func updateButtons() {
+    @objc fileprivate func updateButtons() {
         let primaryColor = getPrimaryColor()
         let selectedColor = getSelectedColor()
         
@@ -186,115 +186,115 @@ class CalendarView: NSView {
         todayButton.attributedAlternateTitle = updateButtonColor(todayButton.attributedAlternateTitle, color: selectedColor)
         forwardButton.attributedAlternateTitle = updateButtonColor(forwardButton.attributedAlternateTitle, color: selectedColor)
         
-        todayButton.enabled = calendar.compareDate(dateValue, toDate: NSDate(), toUnitGranularity: NSCalendarUnit.Month) != NSComparisonResult.OrderedSame
+        todayButton.isEnabled = (calendar as NSCalendar).compare(dateValue, to: Date(), toUnitGranularity: NSCalendar.Unit.month) != ComparisonResult.orderedSame
     }
     
-    private func oneMonthLaterDayForDay(dateComponents: NSDateComponents) -> NSDate {
-        let newDateComponents = NSDateComponents()
+    fileprivate func oneMonthLaterDayForDay(_ dateComponents: DateComponents) -> Date {
+        var newDateComponents = DateComponents()
         newDateComponents.day = dateComponents.day
-        newDateComponents.month = dateComponents.month + 1
+        newDateComponents.month = dateComponents.month! + 1
         newDateComponents.year = dateComponents.year
-        return self.calendar.dateFromComponents(newDateComponents)!
+        return self.calendar.date(from: newDateComponents)!
     }
     
-    private func oneMonthEarlierDayForDay(dateComponents: NSDateComponents) -> NSDate {
-        let newDateComponents = NSDateComponents()
+    fileprivate func oneMonthEarlierDayForDay(_ dateComponents: DateComponents) -> Date {
+        var newDateComponents = DateComponents()
         newDateComponents.day = dateComponents.day
-        newDateComponents.month = dateComponents.month - 1
+        newDateComponents.month = dateComponents.month! - 1
         newDateComponents.year = dateComponents.year
-        return self.calendar.dateFromComponents(newDateComponents)!
+        return self.calendar.date(from: newDateComponents)!
     }
     
-    func monthBackAction(sender: NSButton) {
-        dateValue = oneMonthEarlierDayForDay(self.calendar.components(self.dateUnitMask, fromDate: dateValue))
+    func monthBackAction(_ sender: NSButton) {
+        dateValue = oneMonthEarlierDayForDay((self.calendar as NSCalendar).components(self.dateUnitMask, from: dateValue))
         updateMonth()
         updateMonthLabel()
         updateButtons()
     }
     
-    func monthForwardAction(sender: NSButton) {
-        dateValue = oneMonthLaterDayForDay(self.calendar.components(self.dateUnitMask, fromDate: dateValue))
+    func monthForwardAction(_ sender: NSButton) {
+        dateValue = oneMonthLaterDayForDay((self.calendar as NSCalendar).components(self.dateUnitMask, from: dateValue))
         updateMonth()
         updateMonthLabel()
         updateButtons()
     }
     
-    func todayAction(sender: NSButton) {
-        dateValue = NSDate()
+    func todayAction(_ sender: NSButton) {
+        dateValue = Date()
         updateMonth()
         updateMonthLabel()
         updateButtons()
     }
     
-    private func getPrimaryColor() -> NSColor {
-        let appearance = NSUserDefaults.standardUserDefaults().stringForKey("AppleInterfaceStyle") ?? "Light"
+    fileprivate func getPrimaryColor() -> NSColor {
+        let appearance = UserDefaults.standard.string(forKey: "AppleInterfaceStyle") ?? "Light"
         if appearance == "Light" {
-            return NSColor.blackColor()
+            return NSColor.black
         }
         else {
             return NSColor.init(white: 1.0, alpha: 1.0)
         }
     }
     
-    private func getSelectedColor() -> NSColor {
-        let appearance = NSUserDefaults.standardUserDefaults().stringForKey("AppleInterfaceStyle") ?? "Light"
+    fileprivate func getSelectedColor() -> NSColor {
+        let appearance = UserDefaults.standard.string(forKey: "AppleInterfaceStyle") ?? "Light"
         if appearance == "Light" {
-            return NSColor.alternateSelectedControlColor()
+            return NSColor.alternateSelectedControlColor
         }
         else {
-            return NSColor.selectedControlColor()
+            return NSColor.selectedControlColor
         }
     }
     
-    private func getGrayColor() -> NSColor {
-        let appearance = NSUserDefaults.standardUserDefaults().stringForKey("AppleInterfaceStyle") ?? "Light"
+    fileprivate func getGrayColor() -> NSColor {
+        let appearance = UserDefaults.standard.string(forKey: "AppleInterfaceStyle") ?? "Light"
         if appearance == "Light" {
-            return NSColor.grayColor()
+            return NSColor.gray
         }
         else {
-            return NSColor.lightGrayColor()
+            return NSColor.lightGray
         }
     }
     
-    private func firstDayOfMonthForDate(date: NSDate) -> NSDateComponents {
-        let dateComponents = self.calendar.components(self.dateUnitMask, fromDate: date)
+    fileprivate func firstDayOfMonthForDate(_ date: Date) -> DateComponents {
+        var dateComponents = (self.calendar as NSCalendar).components(self.dateUnitMask, from: date)
         let weekday = dateComponents.weekday
         let day = dateComponents.day
-        let weekOffset = day % 7
+        let weekOffset = day! % 7
         
         dateComponents.day = 1
-        dateComponents.weekday = weekday - weekOffset + 1
-        if dateComponents.weekday <= 0 {
-            dateComponents.weekday += 7
+        dateComponents.weekday = weekday! - weekOffset + 1
+        if dateComponents.weekday! <= 0 {
+            dateComponents.weekday! += 7
         }
         
         return dateComponents
     }
     
-    private func daysCountInMonthForDay(dateComponents: NSDateComponents) -> Int {
-        let date = self.calendar.dateFromComponents(dateComponents)!
-        let days = self.calendar.rangeOfUnit(NSCalendarUnit.Day, inUnit: NSCalendarUnit.Month, forDate: date)
+    fileprivate func daysCountInMonthForDay(_ dateComponents: DateComponents) -> Int {
+        let date = self.calendar.date(from: dateComponents)!
+        let days = (self.calendar as NSCalendar).range(of: NSCalendar.Unit.day, in: NSCalendar.Unit.month, for: date)
         return days.length
     }
     
-    private func makeDay(day: String, color: NSColor, font: NSFont) -> NSTextField {
+    fileprivate func makeDay(_ day: String, color: NSColor, font: NSFont) -> NSTextField {
         let view = NSTextField(frame: NSZeroRect)
         view.textColor = color
         view.font = font
-        view.editable = false
+        view.isEditable = false
         view.drawsBackground = false
-        view.alignment = NSTextAlignment.Right
+        view.alignment = NSTextAlignment.right
         view.stringValue = day
-        view.bordered = false
+        view.isBordered = false
         
         return view
     }
     
-    private func makeDays() {
+    fileprivate func makeDays() {
         var curX = CGFloat(0), curY = NSMaxY(frame) - 60
         let width = floor(self.frame.width / 7), height = CalendarView.lineHeightForFont(font)
         for _ in 0..<42 {
-            let day = makeDay("T", color: NSColor.blackColor(), font: font)
+            let day = makeDay("T", color: NSColor.black, font: font)
             day.frame = NSRect(x: curX, y: curY, width: width, height: height)
             curX += width
             if curX + width >= self.frame.width {
@@ -316,23 +316,23 @@ class CalendarView: NSView {
     }
     
     func menuWillOpen() {
-        dateValue = NSDate()
+        dateValue = Date()
         updateAppearance()
     }
     
-    private func updateMonth() {
+    fileprivate func updateMonth() {
         let firstOfMonth = firstDayOfMonthForDate(dateValue)
         
-        let lastMonth = firstDayOfMonthForDate(dateValue)
-        let dateComponents = calendar.components(dateUnitMask, fromDate: dateValue)
-        let currentDate = NSDate()
-        let currentComponents = calendar.components(dateUnitMask, fromDate: currentDate)
+        var lastMonth = firstDayOfMonthForDate(dateValue)
+        let dateComponents = (calendar as NSCalendar).components(dateUnitMask, from: dateValue)
+        let currentDate = Date()
+        let currentComponents = (calendar as NSCalendar).components(dateUnitMask, from: currentDate)
         
         let grayColor = getGrayColor()
         let selectedColor = getSelectedColor()
         let primaryColor = getPrimaryColor()
         
-        lastMonth.month -= 1
+        lastMonth.month! -= 1
         if lastMonth.month == 0 {
             lastMonth.month = 12
         }
@@ -340,15 +340,15 @@ class CalendarView: NSView {
         var curDayIdx = 0
         
         var curDay : Int = daysCountInMonthForDay(lastMonth)
-        for i in 2..<firstOfMonth.weekday+1 {
-            let day = days[firstOfMonth.weekday - i]
+        for i in 2..<firstOfMonth.weekday!+1 {
+            let day = days[firstOfMonth.weekday! - i]
             day.stringValue = String(curDay)
             day.textColor = grayColor
             day.font = font
             
-            if (dateComponents.year == currentComponents.year &&
-                dateComponents.month == currentComponents.month + 1 &&
-                curDay == currentComponents.day) {
+            if (dateComponents.year! == currentComponents.year &&
+                dateComponents.month == currentComponents.month! + 1 &&
+                curDay == currentComponents.day!) {
                 day.font = weekFont
                 day.textColor = selectedColor
             }
@@ -356,7 +356,7 @@ class CalendarView: NSView {
             curDay -= 1
         }
         curDay = 1
-        curDayIdx = firstOfMonth.weekday - 2
+        curDayIdx = firstOfMonth.weekday! - 2
         for _ in 0..<daysCountInMonthForDay(firstOfMonth) {
             let day = days[curDay + curDayIdx]
             day.stringValue = String(curDay)
@@ -374,15 +374,15 @@ class CalendarView: NSView {
         }
         curDayIdx += (curDay - 1)
         curDay = 1
-        for i in (firstOfMonth.weekday + daysCountInMonthForDay(firstOfMonth))..<43 {
+        for i in (firstOfMonth.weekday! + daysCountInMonthForDay(firstOfMonth))..<43 {
             let day = days[i - 1]
             day.stringValue = String(curDay)
             day.textColor = grayColor
             day.font = font
             
-            if (dateComponents.year == currentComponents.year &&
-                dateComponents.month == currentComponents.month - 1 &&
-                curDay == currentComponents.day) {
+            if (dateComponents.year! == currentComponents.year &&
+                dateComponents.month == currentComponents.month! - 1 &&
+                curDay == currentComponents.day!) {
                 day.font = weekFont
                 day.textColor = selectedColor
             }
@@ -391,7 +391,7 @@ class CalendarView: NSView {
         }
     }
     
-    private func makeWeekdays() {
+    fileprivate func makeWeekdays() {
         let color = getPrimaryColor()
         let lineHeight = CalendarView.lineHeightForFont(weekFont), width = floor(self.frame.width / 7)
         var curX = CGFloat(0)
@@ -406,7 +406,7 @@ class CalendarView: NSView {
         }
     }
     
-    private func updateWeekdays() {
+    fileprivate func updateWeekdays() {
         let primaryColor = getPrimaryColor()
         for weekdayLabel in weekdayLabels {
             weekdayLabel.textColor = primaryColor
@@ -414,7 +414,7 @@ class CalendarView: NSView {
         }
     }
     
-    private func updateAppearance() {
+    fileprivate func updateAppearance() {
         updateMonthLabel()
         updateButtons()
         updateMonth()
