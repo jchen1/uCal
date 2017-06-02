@@ -51,9 +51,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         setupMenu()
         setupTimer()
         setupHelper()
-        
+
         checkAndRequestEventStoreAccess()
-        
         //todo: listen to NSSystemClockDidChangeNotification
         // maybe not - we update every second anyways
     }
@@ -87,6 +86,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 let newValue = newVal as! Bool
                 toggleEV(newValue)
                 break
+            case "hideAllDayEvents":
+                toggleEV(prefs.bool(forKey: "showEvents"))
+                break
             default:
                 break
             }
@@ -110,6 +112,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             prefs.set(false, forKey: "startAtLogin")
             prefs.set(true, forKey: "showEvents")
             prefs.set("EEE h:mm aa", forKey: "dateFormat")
+            prefs.set(true, forKey: "hideAllDayEvents")
             
             prefs.set(true, forKey: "setupDone")
         }
@@ -117,6 +120,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         prefs.addObserver(self, forKeyPath: "showIcon", options: NSKeyValueObservingOptions.new, context: nil)
         prefs.addObserver(self, forKeyPath: "startAtLogin", options: NSKeyValueObservingOptions.new, context: nil)
         prefs.addObserver(self, forKeyPath: "showEvents", options: NSKeyValueObservingOptions.new, context: nil)
+        prefs.addObserver(self, forKeyPath: "hideAllDayEvents", options: NSKeyValueObservingOptions.new, context: nil)
     }
     
     func setupMenu() {
@@ -214,23 +218,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     func toggleAutostart(_ autoStart: Bool) {
-        let autostartItem = menu.item(at: menu.indexOfItem(withTitle: "Start at login"))
-        if autoStart {
-            autostartItem?.state = NSOnState
-        }
-        else {
-            autostartItem?.state = NSOffState
-        }
         SMLoginItemSetEnabled(launcherAppId as CFString, autoStart)
     }
     
     func toggleEV(_ showEvents: Bool) {
+        menu.removeItem(eventsItem)
         if showEvents {
             checkAndRequestEventStoreAccess()
-        }
-        else {
-            menu.removeItem(eventsItem)
-            
         }
     }
     
@@ -241,8 +235,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func getEV() -> NSView {
         let view = NSView()
         view.setFrameSize(NSSize(width: 160, height: 150))
+        let hideAllDayEvents = prefs.bool(forKey: "hideAllDayEvents")
         
-        let uev = UpcomingEventsView(frame: NSRect(x: 5, y: 0, width: 150, height: 150))
+        let uev = UpcomingEventsView(frame: NSRect(x: 5, y: 0, width: 150, height: 150), hideAllDayEvents: hideAllDayEvents)
         uev.frame.origin.y = uev.desiredHeight - 150
         view.frame.size.height = uev.desiredHeight
         
@@ -298,6 +293,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         prefs.removeObserver(self, forKeyPath: "showIcon")
         prefs.removeObserver(self, forKeyPath: "startAtLogin")
         prefs.removeObserver(self, forKeyPath: "showEvents")
+        prefs.removeObserver(self, forKeyPath: "hideAllDayEvents")
     }
 
 

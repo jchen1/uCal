@@ -14,6 +14,7 @@ class PrefsViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet weak var dateFormat: NSTextField!
     @IBOutlet weak var iconCheckbox: NSButton!
     @IBOutlet weak var loginCheckbox: NSButton!
+    @IBOutlet weak var hideAllDayCheckbox: NSButton!
     @IBOutlet weak var upcomingCheckbox: NSButton!
     
     let prefs = UserDefaults.standard
@@ -32,7 +33,8 @@ class PrefsViewController: NSViewController, NSTextFieldDelegate {
         iconCheckbox.state = prefs.bool(forKey: "showIcon") ? NSOnState : NSOffState
         loginCheckbox.state = prefs.bool(forKey: "startAtLogin") ? NSOnState : NSOffState
         upcomingCheckbox.state = prefs.bool(forKey: "showEvents") ? NSOnState : NSOffState
-        
+        hideAllDayCheckbox.state = prefs.bool(forKey: "hideAllDayEvents") ? NSOnState : NSOffState
+
         dateFormat.delegate = self
         setupTimer()
     }
@@ -53,6 +55,9 @@ class PrefsViewController: NSViewController, NSTextFieldDelegate {
             break
         case "Show upcoming events":
             key = "showEvents"
+            break
+        case "Hide all day events":
+            key = "hideAllDayEvents"
             break
         default: break
         }

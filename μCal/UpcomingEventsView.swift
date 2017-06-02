@@ -11,12 +11,12 @@ import EventKit
 
 class UpcomingEventsView: NSView {
     
-    override init(frame frameRect: NSRect) {
+    init(frame frameRect: NSRect, hideAllDayEvents: Bool) {
         super.init(frame: frameRect)
         let authorizationStatus = EKEventStore.authorizationStatus(for: EKEntityType.event)
         if authorizationStatus == EKAuthorizationStatus.authorized {
             clear()
-            getEvents()
+            getEvents(hideAllDayEvents: hideAllDayEvents)
         }
         else {
             //error
@@ -33,13 +33,13 @@ class UpcomingEventsView: NSView {
         }
     }
     
-    func getEvents() {
+    func getEvents(hideAllDayEvents: Bool) {
         let components = (calendar as NSCalendar).components(timeMask, from: Date())
         let nextWeek = oneWeekLaterDayForDay(components)
         
         let pred = eventStore.predicateForEvents(withStart: calendar.date(from: components)!, end: nextWeek, calendars: nil)
         
-        events = eventStore.events(matching: pred)
+        events = eventStore.events(matching: pred).filter({ !hideAllDayEvents || !$0.isAllDay })
         drawEvents()
     }
     

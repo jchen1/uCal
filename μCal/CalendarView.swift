@@ -108,7 +108,7 @@ class CalendarView: NSView {
         let backString = NSMutableAttributedString(string: "◀", attributes: attrs)
         let todayString = NSMutableAttributedString(string: "●", attributes: [
             NSForegroundColorAttributeName: getPrimaryColor(),
-            NSFontAttributeName: NSFont.boldSystemFont(ofSize: 18.0)
+            NSFontAttributeName: NSFont.boldSystemFont(ofSize: 11.0)
             ])
         let forwardString = NSMutableAttributedString(string: "▶", attributes: attrs)
         
@@ -121,7 +121,7 @@ class CalendarView: NSView {
         let backAltString = NSMutableAttributedString(string: "◀", attributes: alternateAttrs)
         let todayAltString = NSMutableAttributedString(string: "●", attributes: [
             NSForegroundColorAttributeName: getSelectedColor(),
-            NSFontAttributeName: NSFont.boldSystemFont(ofSize: 18.0)
+            NSFontAttributeName: NSFont.boldSystemFont(ofSize: 11.0)
             ])
         let forwardAltString = NSMutableAttributedString(string: "▶", attributes: alternateAttrs)
         
@@ -137,7 +137,7 @@ class CalendarView: NSView {
         todayButton.setButtonType(NSButtonType.momentaryChange)
         forwardButton.setButtonType(NSButtonType.momentaryChange)
         
-        todayButton.isEnabled = (calendar as NSCalendar).compare(dateValue, to: Date(), toUnitGranularity: NSCalendar.Unit.month) != ComparisonResult.orderedSame
+//        todayButton.isEnabled = (calendar as NSCalendar).compare(dateValue, to: Date(), toUnitGranularity: NSCalendar.Unit.month) != ComparisonResult.orderedSame
         
         backButton.isBordered = false
         todayButton.isBordered = false
@@ -156,7 +156,7 @@ class CalendarView: NSView {
         let startY = NSMaxY(frame) - height - 3
         
         backButton.frame = NSRect(x: 150 - 3*height - 4, y: startY, width: height, height: height)
-        todayButton.frame = NSRect(x: (150 - 2*height - 1) - 2, y: startY + 1, width: height, height: height)
+        todayButton.frame = NSRect(x: (150 - 2*height - 1) - 1, y: startY, width: height, height: height)
         forwardButton.frame = NSRect(x: 150 - height, y: startY - 0.5, width: height, height: height)
         
         self.addSubview(backButton)
@@ -177,16 +177,19 @@ class CalendarView: NSView {
     @objc fileprivate func updateButtons() {
         let primaryColor = getPrimaryColor()
         let selectedColor = getSelectedColor()
+        let grayColor = getGrayColor()
+        
+        let enableButton = (calendar as NSCalendar).compare(dateValue, to: Date(), toUnitGranularity: NSCalendar.Unit.month) != ComparisonResult.orderedSame
         
         backButton.attributedTitle = updateButtonColor(backButton.attributedTitle, color: primaryColor)
-        todayButton.attributedTitle = updateButtonColor(todayButton.attributedTitle, color: primaryColor)
+        todayButton.attributedTitle = updateButtonColor(todayButton.attributedTitle, color: enableButton ? primaryColor : grayColor)
         forwardButton.attributedTitle = updateButtonColor(forwardButton.attributedTitle, color: primaryColor)
         
         backButton.attributedAlternateTitle = updateButtonColor(backButton.attributedAlternateTitle, color: selectedColor)
-        todayButton.attributedAlternateTitle = updateButtonColor(todayButton.attributedAlternateTitle, color: selectedColor)
+        todayButton.attributedAlternateTitle = updateButtonColor(todayButton.attributedAlternateTitle, color: enableButton ? selectedColor : grayColor)
         forwardButton.attributedAlternateTitle = updateButtonColor(forwardButton.attributedAlternateTitle, color: selectedColor)
         
-        todayButton.isEnabled = (calendar as NSCalendar).compare(dateValue, to: Date(), toUnitGranularity: NSCalendar.Unit.month) != ComparisonResult.orderedSame
+//        todayButton.isEnabled = (calendar as NSCalendar).compare(dateValue, to: Date(), toUnitGranularity: NSCalendar.Unit.month) != ComparisonResult.orderedSame
     }
     
     fileprivate func oneMonthLaterDayForDay(_ dateComponents: DateComponents) -> Date {

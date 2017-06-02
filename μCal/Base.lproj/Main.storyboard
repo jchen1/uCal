@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -671,11 +672,12 @@
             <objects>
                 <viewController storyboardIdentifier="prefsViewController" id="YlM-eu-Zxz" customClass="PrefsViewController" customModule="μCal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" identifier="prefsView" id="Wai-Xp-IzW">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="127"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="158"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fjw-ba-oCU">
-                                <rect key="frame" x="100" y="47" width="244" height="22"/>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fjw-ba-oCU">
+                                <rect key="frame" x="100" y="78" width="244" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="E h:mm a" drawsBackground="YES" id="ymQ-5s-Uzu">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -685,8 +687,9 @@
                                     </connections>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RuD-MU-U89">
-                                <rect key="frame" x="18" y="50" width="76" height="17"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RuD-MU-U89">
+                                <rect key="frame" x="18" y="81" width="76" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Date format" id="PPS-ae-wFo">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -694,7 +697,8 @@
                                 </textFieldCell>
                             </textField>
                             <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HMZ-QO-xCO">
-                                <rect key="frame" x="350" y="44" width="25" height="25"/>
+                                <rect key="frame" x="350" y="75" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yJq-gK-U84">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -704,7 +708,8 @@
                                 </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ipl-ym-2cb">
-                                <rect key="frame" x="18" y="18" width="85" height="18"/>
+                                <rect key="frame" x="18" y="49" width="85" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Show icon" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Kgb-Dg-Tr7">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -714,7 +719,8 @@
                                 </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g1Z-it-hsX">
-                                <rect key="frame" x="107" y="18" width="101" height="18"/>
+                                <rect key="frame" x="238" y="49" width="101" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Start at login" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="IdZ-5a-iWt">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -724,7 +730,8 @@
                                 </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NFC-3l-q87">
-                                <rect key="frame" x="212" y="18" width="163" height="18"/>
+                                <rect key="frame" x="18" y="18" width="163" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Show upcoming events" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="jN6-w6-h0y">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -733,18 +740,31 @@
                                     <action selector="checkboxPressed:" target="YlM-eu-Zxz" id="hOd-p0-avJ"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QzQ-kS-18A">
-                                <rect key="frame" x="18" y="83" width="357" height="24"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QzQ-kS-18A">
+                                <rect key="frame" x="18" y="114" width="357" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="yXP-hN-2lN">
                                     <font key="font" metaFont="system" size="16"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9qy-tn-7yg">
+                                <rect key="frame" x="238" y="18" width="137" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Hide all day events" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="cK4-3R-sg0">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="checkboxPressed:" target="YlM-eu-Zxz" id="b2S-0P-uZ4"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="dateFormat" destination="fjw-ba-oCU" id="YEd-PV-5lO"/>
+                        <outlet property="hideAllDayCheckbox" destination="9qy-tn-7yg" id="CpF-8U-4GN"/>
                         <outlet property="iconCheckbox" destination="ipl-ym-2cb" id="ZTI-m6-oDz"/>
                         <outlet property="loginCheckbox" destination="g1Z-it-hsX" id="blU-e6-UHN"/>
                         <outlet property="sampleDate" destination="QzQ-kS-18A" id="gwZ-dr-Vfv"/>
@@ -753,7 +773,7 @@
                 </viewController>
                 <customObject id="qzt-81-Mfy" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="170.5" y="300.5"/>
+            <point key="canvasLocation" x="170.5" y="316"/>
         </scene>
     </scenes>
 </document>
