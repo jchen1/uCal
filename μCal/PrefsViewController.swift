@@ -12,6 +12,7 @@ class PrefsViewController: NSViewController, NSTextFieldDelegate, NSTextDelegate
 
     @IBOutlet weak var sampleDate: NSTextField!
     @IBOutlet weak var dateFormat: NSTextField!
+    @IBOutlet weak var calendarRegex: NSTextField!
     @IBOutlet weak var iconCheckbox: NSButton!
     @IBOutlet weak var loginCheckbox: NSButton!
     @IBOutlet weak var hideAllDayCheckbox: NSButton!
@@ -24,6 +25,7 @@ class PrefsViewController: NSViewController, NSTextFieldDelegate, NSTextDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         dateFormat.stringValue = prefs.string(forKey: "dateFormat")!
+        calendarRegex.stringValue = prefs.string(forKey: "calendarRegex")!
         
         dateFormatter.dateFormat = prefs.string(forKey: "dateFormat")!
         dateFormatter.isLenient = false;
@@ -36,6 +38,7 @@ class PrefsViewController: NSViewController, NSTextFieldDelegate, NSTextDelegate
         hideAllDayCheckbox.state = prefs.bool(forKey: "hideAllDayEvents") ? NSControl.StateValue.on : NSControl.StateValue.off
 
         dateFormat.delegate = self
+        calendarRegex.delegate = self
         setupTimer()
     }
     
@@ -70,6 +73,12 @@ class PrefsViewController: NSViewController, NSTextFieldDelegate, NSTextDelegate
     @IBAction func dateFormatChanged(_ sender: AnyObject) {
         prefs.set(dateFormat.stringValue, forKey: "dateFormat")
     }
+    
+    @IBAction func calendarRegexChanged(_ sender: AnyObject) {
+        prefs.set(calendarRegex.stringValue, forKey: "calendarRegex")
+    }
+    
+    
     @IBAction func helpButtonPressed(_ sender: AnyObject) {
         NSWorkspace.shared.open(URL(string: "http://unicode.org/reports/tr35/tr35-10.html#Date_Format_Patterns")!)
     }
@@ -91,6 +100,7 @@ class PrefsViewController: NSViewController, NSTextFieldDelegate, NSTextDelegate
     
     override func viewWillDisappear() {
         prefs.set(dateFormat.stringValue, forKey: "dateFormat")
+        prefs.set(calendarRegex.stringValue, forKey: "calendarRegex")
     }
     
 }

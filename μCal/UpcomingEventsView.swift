@@ -11,13 +11,14 @@ import EventKit
 
 class UpcomingEventsView: NSView {
     
-    init(frame frameRect: NSRect, hideAllDayEvents: Bool) {
+    init(frame frameRect: NSRect, hideAllDayEvents: Bool, calendarRegex: String) {
+        lastRefreshTime = Date().timeIntervalSince1970
         super.init(frame: frameRect)
 
         let authorizationStatus = EKEventStore.authorizationStatus(for: EKEntityType.event)
         if authorizationStatus == EKAuthorizationStatus.authorized {
             clear()
-            getEvents(hideAllDayEvents: hideAllDayEvents)
+            getEvents(hideAllDayEvents: hideAllDayEvents, calendarRegex: calendarRegex)
             drawEvents()
         }
         else {
@@ -26,6 +27,7 @@ class UpcomingEventsView: NSView {
     }
     
     required init?(coder: NSCoder) {
+        lastRefreshTime = Date().timeIntervalSince1970
         super.init(coder: coder)
     }
     
@@ -36,14 +38,27 @@ class UpcomingEventsView: NSView {
     }
     
     func needsRefresh() -> Bool {
-        return true
+        // 1 min...
+        return Date().timeIntervalSince1970 - lastRefreshTime > 60
     }
     
-    func getEvents(hideAllDayEvents: Bool) {
+    func getEvents(hideAllDayEvents: Bool, calendarRegex: String) {
         let components = (calendar as NSCalendar).components(timeMask, from: Date())
         let nextWeek = oneWeekLaterDayForDay(components)
+        var calendars = eventStore.calendars(for: .event)
         
-        let pred = eventStore.predicateForEvents(withStart: calendar.date(from: components)!, end: nextWeek, calendars: nil)
+        do {
+            let regex = try NSRegularExpression(pattern: calendarRegex, options: NSRegularExpression.Options.caseInsensitive)
+            calendars = calendars.filter({ regex.numberOfMatches(in: $0.title, options: NSRegularExpression.MatchingOptions.init(), range: NSMakeRange(0, $0.title.count)) > 0 })
+        } catch let error {
+            print("uh oh", error)
+        }
+
+        let pred = eventStore.predicateForEvents(withStart: calendar.date(from: components)!, end: nextWeek, calendars: calendars)
+        
+        for c in calendars {
+            print(c.title)
+        }
         
         events = eventStore.events(matching: pred).filter({ !hideAllDayEvents || !$0.isAllDay })
     }
@@ -124,6 +139,7 @@ class UpcomingEventsView: NSView {
     fileprivate var eventViews: [EventView] = []
     fileprivate let eventStore = EKEventStore()
     fileprivate let calendar = Calendar.current
+    fileprivate var lastRefreshTime: TimeInterval
         
     fileprivate(set) var desiredHeight: CGFloat = 0
     
