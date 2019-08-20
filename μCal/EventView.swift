@@ -31,8 +31,8 @@ class EventView: NSView {
         let height = CalendarView.lineHeightForFont(font)
         let smallHeight = CalendarView.lineHeightForFont(lFont)
         
-        titleField = NSTextField(frame: NSRect(x: 10, y: NSMaxY(bounds) - height, width: NSMaxX(bounds) - 10, height: height))
-        locationField = NSTextField(frame: NSRect(x: 10, y: NSMaxY(bounds) - 2*height, width: NSMaxX(bounds) * 3/5 - 10, height: smallHeight))
+        titleField = NSTextField(frame: NSRect(x: 5, y: NSMaxY(bounds) - height, width: NSMaxX(bounds) - 5, height: height))
+        locationField = NSTextField(frame: NSRect(x: 5, y: NSMaxY(bounds) - 2*height, width: NSMaxX(bounds) * 3/5 - 5, height: smallHeight))
         timeField = NSTextField(frame: NSRect(x: NSMaxX(bounds) * 3/5, y: NSMaxY(bounds) - 2*height, width: NSMaxX(bounds) * 2/5, height: smallHeight))
         
         titleField.cell!.lineBreakMode = NSLineBreakMode.byTruncatingTail
@@ -49,7 +49,7 @@ class EventView: NSView {
         titleField.font = bFont
         titleField.toolTip = event.title
         
-        let loc = (event.location != nil) ? event.location! : "No location"
+        let loc = (event.location != nil) ? event.location! : "---"
         
         locationField.textColor = NSColor.secondaryLabelColor
         locationField.stringValue = loc

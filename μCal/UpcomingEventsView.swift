@@ -91,22 +91,22 @@ class UpcomingEventsView: NSView {
         return separator
     }
     
+    func addSeparator(sep: NSView, curY: CGFloat) -> CGFloat {
+        sep.setFrameOrigin(NSPoint(x: 5, y: curY - 19))
+        addSubview(sep)
+        return curY - 17
+    }
+    
     func drawEvents() {
         var curY = NSMaxY(bounds)
         events = NSArray(array: events).sortedArray(using: #selector(EKEvent.compareStartDate(with:))) as! [EKEvent]
         
         if events.count > 0 {
             var curDay = events[0].startDate
-            var sep = getSeparator(events[0].startDate)
-            sep.setFrameOrigin(NSPoint(x: 5, y: curY - 19))
-            curY -= 17
-            addSubview(sep)
+            curY = addSeparator(sep: getSeparator(events[0].startDate), curY: curY)
             for event in events {
                 if !calendar.isDate(curDay!, inSameDayAs: event.startDate) {
-                    sep = getSeparator(event.startDate)
-                    sep.setFrameOrigin(NSPoint(x: 5, y: curY - 19))
-                    curY -= 17
-                    addSubview(sep)
+                    curY = addSeparator(sep: getSeparator(event.startDate), curY: curY)
                     curDay = event.startDate
                 }
                 let height = EventView.getRequiredHeight(event)

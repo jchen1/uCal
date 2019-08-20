@@ -33,6 +33,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     let launcherAppId = "com.jchen.uCalHelper"
     
     let menuWidth = 160
+    let widgetWidth = 150
+    let widgetHeight = 150
     
     let prefsWithDefaults: [String: Any] = [
         "dateFormat": "EEE h:mm aa",
@@ -213,6 +215,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             print("authorizationStatus not determined")
             EKEventStore().requestAccess(to: EKEntityType.event, completion: self.setupEventView)
             break
+        @unknown default:
+            break
         }
     }
     
@@ -221,8 +225,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             eventsItem = NSMenuItem()
             eventsView = getEV()
             let view = NSView()
-            view.setFrameSize(NSSize(width: menuWidth, height: 150))
-            eventsView!.frame.origin.y = eventsView!.desiredHeight - 150
+            view.setFrameSize(NSSize(width: menuWidth, height: widgetHeight))
+            eventsView!.frame.origin.y = eventsView!.desiredHeight - CGFloat(widgetHeight)
             view.frame.size.height = eventsView!.desiredHeight
             eventsView!.needsDisplay = true
             view.addSubview(eventsView!)
@@ -267,17 +271,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let hideAllDayEvents = prefs.bool(forKey: "hideAllDayEvents")
         let calendarRegex = prefs.string(forKey: "calendarRegex")!
 
-        let uev = UpcomingEventsView(frame: NSRect(x: 5, y: 0, width: 150, height: 150), hideAllDayEvents: hideAllDayEvents, calendarRegex: calendarRegex)
-        uev.frame.origin.y = uev.desiredHeight - 150
+        let uev = UpcomingEventsView(frame: NSRect(x: 5, y: 0, width: widgetWidth, height: widgetHeight), hideAllDayEvents: hideAllDayEvents, calendarRegex: calendarRegex)
+        uev.frame.origin.y = uev.desiredHeight - CGFloat(widgetHeight)
         uev.needsDisplay = true
         return uev
     }
     
     func getCV() -> NSView {
         let view = NSView()
-        view.setFrameSize(NSSize(width: menuWidth, height: 150))
-        
-        view.addSubview(CalendarView(frame: NSRect(x: 5, y: -2, width: 150, height: 150)))
+        view.setFrameSize(NSSize(width: menuWidth, height: widgetHeight))
+        view.addSubview(CalendarView(frame: NSRect(x: 5, y: -2, width: widgetWidth, height: widgetHeight)))
         
         return view
     }
@@ -318,7 +321,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         for (key, _) in prefsWithDefaults {
             prefs.removeObserver(self, forKeyPath: key)
         }
-
     }
 }
 

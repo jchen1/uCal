@@ -137,8 +137,6 @@ class CalendarView: NSView {
         todayButton.setButtonType(NSButton.ButtonType.momentaryChange)
         forwardButton.setButtonType(NSButton.ButtonType.momentaryChange)
         
-//        todayButton.isEnabled = (calendar as NSCalendar).compare(dateValue, to: Date(), toUnitGranularity: NSCalendar.Unit.month) != ComparisonResult.orderedSame
-        
         backButton.isBordered = false
         todayButton.isBordered = false
         forwardButton.isBordered = false
@@ -188,8 +186,6 @@ class CalendarView: NSView {
         backButton.attributedAlternateTitle = updateButtonColor(backButton.attributedAlternateTitle, color: selectedColor)
         todayButton.attributedAlternateTitle = updateButtonColor(todayButton.attributedAlternateTitle, color: enableButton ? selectedColor : grayColor)
         forwardButton.attributedAlternateTitle = updateButtonColor(forwardButton.attributedAlternateTitle, color: selectedColor)
-        
-//        todayButton.isEnabled = (calendar as NSCalendar).compare(dateValue, to: Date(), toUnitGranularity: NSCalendar.Unit.month) != ComparisonResult.orderedSame
     }
     
     fileprivate func oneMonthLaterDayForDay(_ dateComponents: DateComponents) -> Date {
