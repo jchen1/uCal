@@ -368,7 +368,7 @@
 					1F1891C81D205B26003F9B48 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 45A594478C;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 1030;
 					};
 					1F1891D81D205B26003F9B48 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -383,7 +383,7 @@
 					1F475BC81D1F4B0500ECAB84 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 45A594478C;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 1030;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 1;
@@ -393,13 +393,13 @@
 					1F475BD91D1F4B0600ECAB84 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 45A594478C;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 1030;
 						TestTargetID = 1F475BC81D1F4B0500ECAB84;
 					};
 					1F475BE41D1F4B0600ECAB84 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 45A594478C;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 1030;
 						TestTargetID = 1F475BC81D1F4B0500ECAB84;
 					};
 				};
@@ -587,7 +587,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jchen.uCalHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -602,7 +602,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jchen.uCalHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -615,6 +615,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-Cal-HelperTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/μCal Helper.app/Contents/MacOS/μCal Helper";
 			};
 			name = Debug;
@@ -628,6 +629,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-Cal-HelperTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/μCal Helper.app/Contents/MacOS/μCal Helper";
 			};
 			name = Release;
@@ -640,6 +642,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-Cal-HelperUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = "μCal Helper";
 			};
 			name = Debug;
@@ -652,6 +655,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-Cal-HelperUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = "μCal Helper";
 			};
 			name = Release;
@@ -781,7 +785,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "μCal/μCal-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -800,7 +804,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "μCal/μCal-Bridging-Header.h";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -813,7 +817,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-CalTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/μCal.app/Contents/MacOS/μCal";
 			};
 			name = Debug;
@@ -827,7 +831,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-CalTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/μCal.app/Contents/MacOS/μCal";
 			};
 			name = Release;
@@ -840,7 +844,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-CalUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = "μCal";
 			};
 			name = Debug;
@@ -853,7 +857,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jchen.-CalUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = "μCal";
 			};
 			name = Release;
