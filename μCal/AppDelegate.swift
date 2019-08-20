@@ -36,10 +36,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         super.init()
     }
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {        
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         setupPreferences()
         lastDay = getDay(Date())
-        
+
         statusItem.button?.image = getNumberedIcon()
         statusItem.button?.image?.isTemplate = true
         statusItem.button?.imagePosition = prefs.bool(forKey: "showIcon") ? NSControl.ImagePosition.imageLeft : NSControl.ImagePosition.noImage
@@ -157,7 +157,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         (calendarItem.view?.subviews[0] as! CalendarView).menuWillOpen()
         
         let authorizationStatus = EKEventStore.authorizationStatus(for: EKEntityType.event)
-        if authorizationStatus == EKAuthorizationStatus.authorized {
+        if authorizationStatus == EKAuthorizationStatus.authorized && prefs.bool(forKey: "showEvents"){
             eventsItem.view = getEV()
             eventsItem.view?.display()
         }
@@ -181,21 +181,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let authorizationStatus = EKEventStore.authorizationStatus(for: EKEntityType.event)
         switch authorizationStatus {
         case EKAuthorizationStatus.denied:
-            print("authorizationStatus is ... denifed")
-
+            print("authorizationStatus denied")
             break
         case EKAuthorizationStatus.restricted:
-            print("authorizationStatus is .. restri.")
-
+            print("authorizationStatus restricted")
             break
         case EKAuthorizationStatus.authorized:
-            print("authorizationStatus is .. author.")
-
+            print("authorizationStatus authorized")
             setupEventView(true, error: nil)
             break
         case EKAuthorizationStatus.notDetermined:
-            print("authorizationStatus is .. nddnd.")
-
+            print("authorizationStatus not determined")
             EKEventStore().requestAccess(to: EKEntityType.event, completion: self.setupEventView)
             break
         }
@@ -243,14 +239,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let view = NSView()
         view.setFrameSize(NSSize(width: 160, height: 150))
         let hideAllDayEvents = prefs.bool(forKey: "hideAllDayEvents")
-        
         let uev = UpcomingEventsView(frame: NSRect(x: 5, y: 0, width: 150, height: 150), hideAllDayEvents: hideAllDayEvents)
         uev.frame.origin.y = uev.desiredHeight - 150
         view.frame.size.height = uev.desiredHeight
-        
         uev.needsDisplay = true
         view.addSubview(uev)
-        
         return view
     }
     
@@ -302,7 +295,5 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         prefs.removeObserver(self, forKeyPath: "showEvents")
         prefs.removeObserver(self, forKeyPath: "hideAllDayEvents")
     }
-
-
 }
 

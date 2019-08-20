@@ -13,6 +13,7 @@ class UpcomingEventsView: NSView {
     
     init(frame frameRect: NSRect, hideAllDayEvents: Bool) {
         super.init(frame: frameRect)
+
         let authorizationStatus = EKEventStore.authorizationStatus(for: EKEntityType.event)
         if authorizationStatus == EKAuthorizationStatus.authorized {
             clear()
