@@ -13,8 +13,8 @@ class CalendarView: NSView {
     required init?(coder: NSCoder) {
         font = NSFont.systemFont(ofSize: 9.0)
         weekFont = NSFont.boldSystemFont(ofSize: 9.0)
-        monthFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize())
-        yearFont = NSFont.systemFont(ofSize: NSFont.systemFontSize())
+        monthFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize)
+        yearFont = NSFont.systemFont(ofSize: NSFont.systemFontSize)
         
         super.init(coder: coder)
         makeWeekdays()
@@ -30,8 +30,8 @@ class CalendarView: NSView {
     override init(frame frameRect: NSRect) {
         font = NSFont.systemFont(ofSize: 9.0)
         weekFont = NSFont.boldSystemFont(ofSize: 9.0)
-        monthFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize())
-        yearFont = NSFont.systemFont(ofSize: NSFont.systemFontSize())
+        monthFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize)
+        yearFont = NSFont.systemFont(ofSize: NSFont.systemFontSize)
     
         super.init(frame: frameRect)
         makeWeekdays()
@@ -58,7 +58,7 @@ class CalendarView: NSView {
     fileprivate var backButton = NSButton(frame: NSZeroRect)
     fileprivate var todayButton = NSButton(frame: NSZeroRect)
     fileprivate var forwardButton = NSButton(frame: NSZeroRect)
-    fileprivate let buttonFont = NSFont.boldSystemFont(ofSize: NSFont.smallSystemFontSize())
+    fileprivate let buttonFont = NSFont.boldSystemFont(ofSize: NSFont.smallSystemFontSize)
     
     fileprivate let dateFormatter = DateFormatter()
     fileprivate let calendar = Calendar.autoupdatingCurrent
@@ -66,15 +66,15 @@ class CalendarView: NSView {
     fileprivate let dateTimeUnitMask: NSCalendar.Unit =  [NSCalendar.Unit.year, NSCalendar.Unit.month, NSCalendar.Unit.day, NSCalendar.Unit.hour, NSCalendar.Unit.minute, NSCalendar.Unit.second, NSCalendar.Unit.weekday]
     
     class func lineHeightForFont(_ font: NSFont) -> CGFloat {
-        let attribs = NSDictionary(object: font, forKey: NSFontAttributeName as NSString)
-        let size = "Aa".size(withAttributes: attribs as? [String : AnyObject])
+        let attribs = NSDictionary(object: font, forKey: NSAttributedString.Key.font as NSString)
+        let size = "Aa".size(withAttributes: attribs as? [NSAttributedString.Key : AnyObject])
         return round(size.height)
     }
     
     fileprivate func getTitleString(_ month: String, year: String) -> NSAttributedString {
         let titleString = NSMutableAttributedString.init(string: month + " " + year)
-        let monthAttribute = [NSFontAttributeName: monthFont]
-        let yearAttribute = [NSFontAttributeName: yearFont]
+        let monthAttribute = [NSAttributedString.Key.font: monthFont]
+        let yearAttribute = [NSAttributedString.Key.font: yearFont]
         
         titleString.addAttributes(monthAttribute, range: (titleString.string as NSString).range(of: month))
         titleString.addAttributes(yearAttribute, range: (titleString.string as NSString).range(of: year))
@@ -103,12 +103,12 @@ class CalendarView: NSView {
     }
     
     fileprivate func makeButtons() {
-        let attrs = [NSForegroundColorAttributeName: getPrimaryColor(), NSFontAttributeName: buttonFont]
+        let attrs = [NSAttributedString.Key.foregroundColor: getPrimaryColor(), NSAttributedString.Key.font: buttonFont]
         
         let backString = NSMutableAttributedString(string: "◀", attributes: attrs)
         let todayString = NSMutableAttributedString(string: "●", attributes: [
-            NSForegroundColorAttributeName: getPrimaryColor(),
-            NSFontAttributeName: NSFont.boldSystemFont(ofSize: 11.0)
+            NSAttributedString.Key.foregroundColor: getPrimaryColor(),
+            NSAttributedString.Key.font: NSFont.boldSystemFont(ofSize: 11.0)
             ])
         let forwardString = NSMutableAttributedString(string: "▶", attributes: attrs)
         
@@ -116,12 +116,12 @@ class CalendarView: NSView {
         todayButton.attributedTitle = todayString
         forwardButton.attributedTitle = forwardString
         
-        let alternateAttrs = [NSForegroundColorAttributeName: getSelectedColor(), NSFontAttributeName: buttonFont]
+        let alternateAttrs = [NSAttributedString.Key.foregroundColor: getSelectedColor(), NSAttributedString.Key.font: buttonFont]
         
         let backAltString = NSMutableAttributedString(string: "◀", attributes: alternateAttrs)
         let todayAltString = NSMutableAttributedString(string: "●", attributes: [
-            NSForegroundColorAttributeName: getSelectedColor(),
-            NSFontAttributeName: NSFont.boldSystemFont(ofSize: 11.0)
+            NSAttributedString.Key.foregroundColor: getSelectedColor(),
+            NSAttributedString.Key.font: NSFont.boldSystemFont(ofSize: 11.0)
             ])
         let forwardAltString = NSMutableAttributedString(string: "▶", attributes: alternateAttrs)
         
@@ -133,9 +133,9 @@ class CalendarView: NSView {
         todayButton.alignment = NSTextAlignment.center
         forwardButton.alignment = NSTextAlignment.center
         
-        backButton.setButtonType(NSButtonType.momentaryChange)
-        todayButton.setButtonType(NSButtonType.momentaryChange)
-        forwardButton.setButtonType(NSButtonType.momentaryChange)
+        backButton.setButtonType(NSButton.ButtonType.momentaryChange)
+        todayButton.setButtonType(NSButton.ButtonType.momentaryChange)
+        forwardButton.setButtonType(NSButton.ButtonType.momentaryChange)
         
 //        todayButton.isEnabled = (calendar as NSCalendar).compare(dateValue, to: Date(), toUnitGranularity: NSCalendar.Unit.month) != ComparisonResult.orderedSame
         
@@ -168,8 +168,8 @@ class CalendarView: NSView {
         let oneCharRange = NSRange(location: 0, length: 1)
         
         let mutableTitle = NSMutableAttributedString(attributedString: title)
-        mutableTitle.removeAttribute(NSForegroundColorAttributeName, range: oneCharRange)
-        mutableTitle.addAttribute(NSForegroundColorAttributeName, value: color, range: oneCharRange)
+        mutableTitle.removeAttribute(NSAttributedString.Key.foregroundColor, range: oneCharRange)
+        mutableTitle.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: oneCharRange)
         
         return mutableTitle
     }
@@ -208,21 +208,21 @@ class CalendarView: NSView {
         return self.calendar.date(from: newDateComponents)!
     }
     
-    func monthBackAction(_ sender: NSButton) {
+    @objc func monthBackAction(_ sender: NSButton) {
         dateValue = oneMonthEarlierDayForDay((self.calendar as NSCalendar).components(self.dateUnitMask, from: dateValue))
         updateMonth()
         updateMonthLabel()
         updateButtons()
     }
     
-    func monthForwardAction(_ sender: NSButton) {
+    @objc func monthForwardAction(_ sender: NSButton) {
         dateValue = oneMonthLaterDayForDay((self.calendar as NSCalendar).components(self.dateUnitMask, from: dateValue))
         updateMonth()
         updateMonthLabel()
         updateButtons()
     }
     
-    func todayAction(_ sender: NSButton) {
+    @objc func todayAction(_ sender: NSButton) {
         dateValue = Date()
         updateMonth()
         updateMonthLabel()
@@ -310,11 +310,11 @@ class CalendarView: NSView {
         }
     }
     
-    func darkModeChanged() {
+    @objc func darkModeChanged() {
         updateAppearance()
     }
     
-    func calendarUpdated() {
+    @objc func calendarUpdated() {
         updateAppearance()
     }
     

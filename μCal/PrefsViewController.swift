@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class PrefsViewController: NSViewController, NSTextFieldDelegate {
+class PrefsViewController: NSViewController, NSTextFieldDelegate, NSTextDelegate {
 
     @IBOutlet weak var sampleDate: NSTextField!
     @IBOutlet weak var dateFormat: NSTextField!
@@ -30,16 +30,16 @@ class PrefsViewController: NSViewController, NSTextFieldDelegate {
         
         sampleDate.stringValue = dateFormatter.string(from: Date())
         
-        iconCheckbox.state = prefs.bool(forKey: "showIcon") ? NSOnState : NSOffState
-        loginCheckbox.state = prefs.bool(forKey: "startAtLogin") ? NSOnState : NSOffState
-        upcomingCheckbox.state = prefs.bool(forKey: "showEvents") ? NSOnState : NSOffState
-        hideAllDayCheckbox.state = prefs.bool(forKey: "hideAllDayEvents") ? NSOnState : NSOffState
+        iconCheckbox.state = prefs.bool(forKey: "showIcon") ? NSControl.StateValue.on : NSControl.StateValue.off
+        loginCheckbox.state = prefs.bool(forKey: "startAtLogin") ? NSControl.StateValue.on : NSControl.StateValue.off
+        upcomingCheckbox.state = prefs.bool(forKey: "showEvents") ? NSControl.StateValue.on : NSControl.StateValue.off
+        hideAllDayCheckbox.state = prefs.bool(forKey: "hideAllDayEvents") ? NSControl.StateValue.on : NSControl.StateValue.off
 
         dateFormat.delegate = self
         setupTimer()
     }
     
-    override func controlTextDidChange(_ notification: Notification){
+    func textDidChange(_ notification: Notification){
         dateFormatter.dateFormat = dateFormat.stringValue;
         sampleDate.stringValue = dateFormatter.string(from: Date())
     }
@@ -63,7 +63,7 @@ class PrefsViewController: NSViewController, NSTextFieldDelegate {
         }
         
         if let key = key {
-            prefs.set(sender.state == NSOnState, forKey: key)
+            prefs.set(sender.state == NSControl.StateValue.on, forKey: key)
         }
     }
     
@@ -71,7 +71,7 @@ class PrefsViewController: NSViewController, NSTextFieldDelegate {
         prefs.set(dateFormat.stringValue, forKey: "dateFormat")
     }
     @IBAction func helpButtonPressed(_ sender: AnyObject) {
-        NSWorkspace.shared().open(URL(string: "http://unicode.org/reports/tr35/tr35-10.html#Date_Format_Patterns")!)
+        NSWorkspace.shared.open(URL(string: "http://unicode.org/reports/tr35/tr35-10.html#Date_Format_Patterns")!)
     }
     
     func setupTimer() {
@@ -82,10 +82,10 @@ class PrefsViewController: NSViewController, NSTextFieldDelegate {
         
         timer = Timer.init(fireAt: Date.init(timeInterval: timeToAdd, since: time), interval: 1.0, target: self, selector: #selector(PrefsViewController.updateTime), userInfo: nil, repeats: true)
         
-        RunLoop.current.add(timer, forMode: RunLoopMode.defaultRunLoopMode)
+        RunLoop.current.add(timer, forMode: RunLoop.Mode.default)
     }
     
-    func updateTime() {
+    @objc func updateTime() {
         sampleDate.stringValue = dateFormatter.string(from: Date())
     }
     

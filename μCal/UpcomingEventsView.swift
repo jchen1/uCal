@@ -65,11 +65,11 @@ class UpcomingEventsView: NSView {
         let secondPart = dateFormatter.string(from: date)
         
         let separatorString = NSMutableAttributedString(string: firstPart + secondPart)
-        let bFont = NSFont.boldSystemFont(ofSize: NSFont.smallSystemFontSize() - 2)
-        let font = NSFont.systemFont(ofSize: NSFont.smallSystemFontSize() - 2)
+        let bFont = NSFont.boldSystemFont(ofSize: NSFont.smallSystemFontSize - 2)
+        let font = NSFont.systemFont(ofSize: NSFont.smallSystemFontSize - 2)
 
-        separatorString.addAttributes([NSFontAttributeName: bFont], range: (separatorString.string as NSString).range(of: firstPart))
-        separatorString.addAttributes([NSFontAttributeName: font], range: (separatorString.string as NSString).range(of: secondPart))
+        separatorString.addAttributes([NSAttributedString.Key.font: bFont], range: (separatorString.string as NSString).range(of: firstPart))
+        separatorString.addAttributes([NSAttributedString.Key.font: font], range: (separatorString.string as NSString).range(of: secondPart))
 
         separator.attributedStringValue = separatorString
         return separator
@@ -86,7 +86,7 @@ class UpcomingEventsView: NSView {
             curY -= 17
             addSubview(sep)
             for event in events {
-                if !calendar.isDate(curDay, inSameDayAs: event.startDate) {
+                if !calendar.isDate(curDay!, inSameDayAs: event.startDate) {
                     sep = getSeparator(event.startDate)
                     sep.setFrameOrigin(NSPoint(x: 5, y: curY - 19))
                     curY -= 17

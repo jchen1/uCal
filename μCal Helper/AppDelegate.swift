@@ -14,7 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let mainAppId = "com.jchen.uCal"
-        let running = NSWorkspace.shared().runningApplications
+        let running = NSWorkspace.shared.runningApplications
         var alreadyRunning = false
         
         for app in running {
@@ -38,12 +38,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             components.append("μCal")
             
             let newPath = NSString.path(withComponents: components)
-            NSWorkspace.shared().launchApplication(newPath)
+            NSWorkspace.shared.launchApplication(newPath)
         }
     }
     
-    func quit() {
-        NSApplication.shared().terminate(self);
+    @objc func quit() {
+        NSApplication.shared.terminate(self);
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

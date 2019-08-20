@@ -18,7 +18,7 @@ import ServiceManagement
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
-    var statusBar = NSStatusBar.system()
+    var statusBar = NSStatusBar.system
     let statusItem: NSStatusItem
     var menu = NSMenu()
     var calendarItem = NSMenuItem()
@@ -32,7 +32,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     let launcherAppId = "com.jchen.uCalHelper"
     
     override init() {
-        statusItem = statusBar.statusItem(withLength: NSVariableStatusItemLength, priority: NSStatusBarItemPriority.system)
+        statusItem = statusBar.statusItem(withLength: NSStatusItem.variableLength, priority: NSStatusBarItemPriority.system)
         super.init()
     }
 
@@ -42,7 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         statusItem.button?.image = getNumberedIcon()
         statusItem.button?.image?.isTemplate = true
-        statusItem.button?.imagePosition = prefs.bool(forKey: "showIcon") ? NSCellImagePosition.imageLeft : NSCellImagePosition.noImage
+        statusItem.button?.imagePosition = prefs.bool(forKey: "showIcon") ? NSControl.ImagePosition.imageLeft : NSControl.ImagePosition.noImage
         statusItem.button?.setFrameOrigin(NSPoint(x: 0, y: 1))
         
         dateFormatter.dateFormat = prefs.string(forKey: "dateFormat")
@@ -58,7 +58,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     func setupHelper() {
-        for app in NSWorkspace.shared().runningApplications {
+        for app in NSWorkspace.shared.runningApplications {
             if app.bundleIdentifier == launcherAppId {
                 DistributedNotificationCenter.default().post(name: Notification.Name(rawValue: "uCalHelperKillNotification"), object: Bundle.main.bundleIdentifier!)
             }
@@ -103,7 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         timer = Timer.init(fireAt: Date.init(timeInterval: timeToAdd, since: time), interval: 1.0, target: self, selector: #selector(AppDelegate.updateTime), userInfo: nil, repeats: true)
         
-        RunLoop.current.add(timer, forMode: RunLoopMode.defaultRunLoopMode)
+        RunLoop.current.add(timer, forMode: RunLoop.Mode.default)
     }
     
     func setupPreferences() {
@@ -145,12 +145,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.delegate = self
     }
     
-    func openTimeSettings() {
-        NSWorkspace.shared().open(URL(fileURLWithPath: "/System/Library/PreferencePanes/DateAndTime.prefPane"))
+    @objc func openTimeSettings() {
+        NSWorkspace.shared.open(URL(fileURLWithPath: "/System/Library/PreferencePanes/DateAndTime.prefPane"))
     }
     
-    func openCalendar() {
-        NSWorkspace.shared().open(URL(string: "ical://")!)
+    @objc func openCalendar() {
+        NSWorkspace.shared.open(URL(string: "ical://")!)
     }
     
     func menuWillOpen(_ menu: NSMenu) {
@@ -163,16 +163,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
     
-    func openFmtWindow() {
+    @objc func openFmtWindow() {
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
         if let vc = storyboard.instantiateController(withIdentifier: "prefsViewController") as? PrefsViewController
         {
             let myWindow = NSWindow(contentViewController: vc)
             myWindow.title = "µCal Preferences"
             myWindow.makeKeyAndOrderFront(self)
-            myWindow.styleMask = NSWindowStyleMask(rawValue: myWindow.styleMask.rawValue & ~NSResizableWindowMask.rawValue)
+            myWindow.styleMask.remove(.resizable)
             prefsWindowController = NSWindowController(window: myWindow)
-            
             prefsWindowController!.showWindow(self)
             NSApp.activate(ignoringOtherApps: true)
         }
@@ -182,14 +181,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let authorizationStatus = EKEventStore.authorizationStatus(for: EKEntityType.event)
         switch authorizationStatus {
         case EKAuthorizationStatus.denied:
+            print("authorizationStatus is ... denifed")
+
             break
         case EKAuthorizationStatus.restricted:
+            print("authorizationStatus is .. restri.")
+
             break
         case EKAuthorizationStatus.authorized:
+            print("authorizationStatus is .. author.")
+
             setupEventView(true, error: nil)
             break
         case EKAuthorizationStatus.notDetermined:
-            EKEventStore().requestAccess(to: EKEntityType.event, completion: self.setupEventView as! EKEventStoreRequestAccessCompletionHandler)
+            print("authorizationStatus is .. nddnd.")
+
+            EKEventStore().requestAccess(to: EKEntityType.event, completion: self.setupEventView)
             break
         }
     }
@@ -210,10 +217,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     func toggleIcon(_ showIcon: Bool) {
         if showIcon {
-            statusItem.button?.imagePosition = NSCellImagePosition.imageLeft
+            statusItem.button?.imagePosition = NSControl.ImagePosition.imageLeft
         }
         else {
-            statusItem.button?.imagePosition = NSCellImagePosition.noImage
+            statusItem.button?.imagePosition = NSControl.ImagePosition.noImage
         }
     }
     
@@ -228,8 +235,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
     
-    func quit() {
-        NSApplication.shared().terminate(self)
+    @objc func quit() {
+        NSApplication.shared.terminate(self)
     }
     
     func getEV() -> NSView {
@@ -261,7 +268,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let numberedIcon = NSImage(size: (icon?.size)!)
         let style = NSMutableParagraphStyle()
         style.alignment = NSTextAlignment.center
-        let attrs = [NSParagraphStyleAttributeName: style, NSFontAttributeName: NSFont.menuBarFont(ofSize: 9)]
+        let attrs = [NSAttributedString.Key.paragraphStyle: style, NSAttributedString.Key.font: NSFont.menuBarFont(ofSize: 9)]
         let dayString = String(getDay(Date()))
         
         numberedIcon.lockFocus();
@@ -273,7 +280,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return numberedIcon
     }
     
-    func updateTime() {
+    @objc func updateTime() {
         let currentTime = Date()
         let timeString = dateFormatter.string(from: currentTime)
         

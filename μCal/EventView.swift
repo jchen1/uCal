@@ -16,8 +16,8 @@ class EventView: NSView {
     }
     
     class func getRequiredHeight(_ event: EKEvent) -> CGFloat {
-        var height = CalendarView.lineHeightForFont(NSFont.systemFont(ofSize: NSFont.smallSystemFontSize()))
-        height += CalendarView.lineHeightForFont(NSFont.systemFont(ofSize: NSFont.smallSystemFontSize() - 1))
+        var height = CalendarView.lineHeightForFont(NSFont.systemFont(ofSize: NSFont.smallSystemFontSize))
+        height += CalendarView.lineHeightForFont(NSFont.systemFont(ofSize: NSFont.smallSystemFontSize - 1))
         return height
     }
     
@@ -25,9 +25,9 @@ class EventView: NSView {
         self.event = event
         super.init(frame: frameRect)
         
-        let font = NSFont.systemFont(ofSize: NSFont.smallSystemFontSize(), weight: NSFontWeightLight)
-        let bFont = NSFont.boldSystemFont(ofSize: NSFont.smallSystemFontSize())
-        let lFont = NSFont.systemFont(ofSize: NSFont.smallSystemFontSize() - 1)
+        let font = NSFont.systemFont(ofSize: NSFont.smallSystemFontSize, weight: NSFont.Weight.light)
+        let bFont = NSFont.boldSystemFont(ofSize: NSFont.smallSystemFontSize)
+        let lFont = NSFont.systemFont(ofSize: NSFont.smallSystemFontSize - 1)
         let height = CalendarView.lineHeightForFont(font)
         let smallHeight = CalendarView.lineHeightForFont(lFont)
         
@@ -57,7 +57,7 @@ class EventView: NSView {
         locationField.isBordered = false
         locationField.drawsBackground = false
         locationField.alignment = NSTextAlignment.left
-        locationField.font = NSFontManager.shared().convert(lFont, toHaveTrait: NSFontTraitMask.italicFontMask)
+        locationField.font = NSFontManager.shared.convert(lFont, toHaveTrait: NSFontTraitMask.italicFontMask)
         self.height += height
         locationField.toolTip = loc
         addSubview(locationField)
