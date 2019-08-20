@@ -23,6 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var menu = NSMenu()
     var calendarItem = NSMenuItem()
     var eventsItem = NSMenuItem()
+    var eventsView: UpcomingEventsView?
     
     let dateFormatter = DateFormatter()
     var timer = Timer()
@@ -72,7 +73,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if let keyPath = keyPath, let newVal = change?[.newKey] {
             switch keyPath {
             case "dateFormat":
-                dateFormatter.dateFormat = newVal as! String
+                dateFormatter.dateFormat = (newVal as! String)
                 break
             case "showIcon":
                 let newValue = newVal as! Bool
@@ -158,7 +159,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         let authorizationStatus = EKEventStore.authorizationStatus(for: EKEntityType.event)
         if authorizationStatus == EKAuthorizationStatus.authorized && prefs.bool(forKey: "showEvents"){
-            eventsItem.view = getEV()
+            getEV()
+//            eventsItem.view = getEV()
             eventsItem.view?.display()
         }
     }
@@ -200,7 +202,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func setupEventView(_ shouldSetup: Bool, error: Error?) {
         if shouldSetup && prefs.bool(forKey: "showEvents") {
             eventsItem = NSMenuItem()
-            eventsItem.view = getEV()
+            eventsView = getEV()
+            let view = NSView()
+            view.setFrameSize(NSSize(width: 160, height: 150))
+            eventsView!.frame.origin.y = eventsView!.desiredHeight - 150
+            view.frame.size.height = eventsView!.desiredHeight
+            eventsView!.needsDisplay = true
+            view.addSubview(eventsView!)
+            
+            eventsItem.view = view
             menu.insertItem(eventsItem, at: 2)
         }
     }
@@ -225,9 +235,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     func toggleEV(_ showEvents: Bool) {
-        menu.removeItem(eventsItem)
         if showEvents {
             checkAndRequestEventStoreAccess()
+        } else {
+            menu.removeItem(eventsItem)
         }
     }
     
@@ -235,16 +246,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         NSApplication.shared.terminate(self)
     }
     
-    func getEV() -> NSView {
-        let view = NSView()
-        view.setFrameSize(NSSize(width: 160, height: 150))
+    func getEV() -> UpcomingEventsView {
         let hideAllDayEvents = prefs.bool(forKey: "hideAllDayEvents")
-        let uev = UpcomingEventsView(frame: NSRect(x: 5, y: 0, width: 150, height: 150), hideAllDayEvents: hideAllDayEvents)
-        uev.frame.origin.y = uev.desiredHeight - 150
-        view.frame.size.height = uev.desiredHeight
-        uev.needsDisplay = true
-        view.addSubview(uev)
-        return view
+
+        if (eventsView == nil) {
+            let uev = UpcomingEventsView(frame: NSRect(x: 5, y: 0, width: 150, height: 150), hideAllDayEvents: hideAllDayEvents)
+            uev.frame.origin.y = uev.desiredHeight - 150
+            uev.needsDisplay = true
+            return uev
+        } else {
+            if (eventsView!.needsRefresh()) {
+                eventsView!.getEvents(hideAllDayEvents: hideAllDayEvents)
+                eventsView!.clear()
+                eventsView!.drawEvents()
+            }
+            return eventsView!
+        }
     }
     
     func getCV() -> NSView {

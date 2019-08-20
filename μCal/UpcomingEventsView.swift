@@ -18,6 +18,7 @@ class UpcomingEventsView: NSView {
         if authorizationStatus == EKAuthorizationStatus.authorized {
             clear()
             getEvents(hideAllDayEvents: hideAllDayEvents)
+            drawEvents()
         }
         else {
             //error
@@ -34,6 +35,10 @@ class UpcomingEventsView: NSView {
         }
     }
     
+    func needsRefresh() -> Bool {
+        return true
+    }
+    
     func getEvents(hideAllDayEvents: Bool) {
         let components = (calendar as NSCalendar).components(timeMask, from: Date())
         let nextWeek = oneWeekLaterDayForDay(components)
@@ -41,7 +46,6 @@ class UpcomingEventsView: NSView {
         let pred = eventStore.predicateForEvents(withStart: calendar.date(from: components)!, end: nextWeek, calendars: nil)
         
         events = eventStore.events(matching: pred).filter({ !hideAllDayEvents || !$0.isAllDay })
-        drawEvents()
     }
     
     fileprivate func getSeparator(_ date: Date) -> NSView {
@@ -76,7 +80,7 @@ class UpcomingEventsView: NSView {
         return separator
     }
     
-    fileprivate func drawEvents() {
+    func drawEvents() {
         var curY = NSMaxY(bounds)
         events = NSArray(array: events).sortedArray(using: #selector(EKEvent.compareStartDate(with:))) as! [EKEvent]
         
