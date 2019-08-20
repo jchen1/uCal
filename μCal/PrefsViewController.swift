@@ -8,6 +8,8 @@
 
 import Cocoa
 
+
+// todo unify with AppDelegate.prefsWithDefaults
 class PrefsViewController: NSViewController, NSTextFieldDelegate, NSTextDelegate {
 
     @IBOutlet weak var sampleDate: NSTextField!

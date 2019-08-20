@@ -32,6 +32,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var prefsWindowController: NSWindowController?
     let launcherAppId = "com.jchen.uCalHelper"
     
+    let menuWidth = 160
+    
+    let prefsWithDefaults: [String: Any] = [
+        "dateFormat": "EEE h:mm aa",
+        "showIcon": true,
+        "startAtLogin": false,
+        "showEvents": true,
+        "calendarRegex": ".*",
+        "hideAllDayEvents": true
+    ]
+    
     override init() {
         statusItem = statusBar.statusItem(withLength: NSStatusItem.variableLength, priority: NSStatusBarItemPriority.system)
         super.init()
@@ -66,7 +77,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         
         SMLoginItemSetEnabled(launcherAppId as CFString, prefs.bool(forKey: "startAtLogin"))
-
+    }
+    
+    func refreshEventView() {
+        if let ev = eventsView {
+            ev.getEvents(hideAllDayEvents: prefs.bool(forKey: "hideAllDayEvents"), calendarRegex: prefs.string(forKey: "calendarRegex")!)
+            ev.clear()
+            ev.drawEvents()
+        }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -76,9 +94,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 dateFormatter.dateFormat = (newVal as! String)
                 break
             case "calendarRegex":
-                eventsView!.getEvents(hideAllDayEvents: prefs.bool(forKey: "hideAllDayEvents"), calendarRegex: newVal as! String)
-                eventsView!.clear()
-                eventsView!.drawEvents()
+                refreshEventView()
                 break
             case "showIcon":
                 let newValue = newVal as! Bool
@@ -93,7 +109,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 toggleEV(newValue)
                 break
             case "hideAllDayEvents":
-                toggleEV(prefs.bool(forKey: "showEvents"))
+                refreshEventView()
                 break
             default:
                 break
@@ -111,30 +127,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         RunLoop.current.add(timer, forMode: RunLoop.Mode.default)
     }
-    
+
     func setupPreferences() {
         // todo do a proper migration version thing
         if !prefs.bool(forKey: "setupDone") {
-            prefs.set(true, forKey: "showIcon")
-            prefs.set(false, forKey: "startAtLogin")
-            prefs.set(true, forKey: "showEvents")
-            prefs.set("EEE h:mm aa", forKey: "dateFormat")
-            prefs.set(".*", forKey: "calendarRegex")
-            prefs.set(true, forKey: "hideAllDayEvents")
+            for (key, val) in prefsWithDefaults {
+                prefs.set(val, forKey: key)
+            }
             
             prefs.set(true, forKey: "setupDone")
         }
-        prefs.addObserver(self, forKeyPath: "dateFormat", options: NSKeyValueObservingOptions.new, context: nil)
-        prefs.addObserver(self, forKeyPath: "calendarRegex", options: NSKeyValueObservingOptions.new, context: nil)
-        prefs.addObserver(self, forKeyPath: "showIcon", options: NSKeyValueObservingOptions.new, context: nil)
-        prefs.addObserver(self, forKeyPath: "startAtLogin", options: NSKeyValueObservingOptions.new, context: nil)
-        prefs.addObserver(self, forKeyPath: "showEvents", options: NSKeyValueObservingOptions.new, context: nil)
-        prefs.addObserver(self, forKeyPath: "hideAllDayEvents", options: NSKeyValueObservingOptions.new, context: nil)
+        for (key, _) in prefsWithDefaults {
+            prefs.addObserver(self, forKeyPath: key, options: NSKeyValueObservingOptions.new, context: nil)
+        }
     }
     
     func setupMenu() {
         statusItem.menu = menu
-        menu.minimumWidth = 160
+        menu.minimumWidth = CGFloat(menuWidth)
         
         calendarItem = menu.addItem(withTitle: "cal", action: nil, keyEquivalent: "")
         calendarItem.view = getCV()
@@ -167,7 +177,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         let authorizationStatus = EKEventStore.authorizationStatus(for: EKEntityType.event)
         if authorizationStatus == EKAuthorizationStatus.authorized && prefs.bool(forKey: "showEvents"){
-            getEV()
+            refreshEventView()
             eventsItem.view?.display()
         }
     }
@@ -211,7 +221,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             eventsItem = NSMenuItem()
             eventsView = getEV()
             let view = NSView()
-            view.setFrameSize(NSSize(width: 160, height: 150))
+            view.setFrameSize(NSSize(width: menuWidth, height: 150))
             eventsView!.frame.origin.y = eventsView!.desiredHeight - 150
             view.frame.size.height = eventsView!.desiredHeight
             eventsView!.needsDisplay = true
@@ -257,24 +267,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let hideAllDayEvents = prefs.bool(forKey: "hideAllDayEvents")
         let calendarRegex = prefs.string(forKey: "calendarRegex")!
 
-        if (eventsView == nil) {
-            let uev = UpcomingEventsView(frame: NSRect(x: 5, y: 0, width: 150, height: 150), hideAllDayEvents: hideAllDayEvents, calendarRegex: calendarRegex)
-            uev.frame.origin.y = uev.desiredHeight - 150
-            uev.needsDisplay = true
-            return uev
-        } else {
-            if (eventsView!.needsRefresh()) {
-                eventsView!.getEvents(hideAllDayEvents: hideAllDayEvents, calendarRegex: calendarRegex)
-                eventsView!.clear()
-                eventsView!.drawEvents()
-            }
-            return eventsView!
-        }
+        let uev = UpcomingEventsView(frame: NSRect(x: 5, y: 0, width: 150, height: 150), hideAllDayEvents: hideAllDayEvents, calendarRegex: calendarRegex)
+        uev.frame.origin.y = uev.desiredHeight - 150
+        uev.needsDisplay = true
+        return uev
     }
     
     func getCV() -> NSView {
         let view = NSView()
-        view.setFrameSize(NSSize(width: 160, height: 150))
+        view.setFrameSize(NSSize(width: menuWidth, height: 150))
         
         view.addSubview(CalendarView(frame: NSRect(x: 5, y: -2, width: 150, height: 150)))
         
@@ -314,12 +315,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        prefs.removeObserver(self, forKeyPath: "dateFormat")
-        prefs.removeObserver(self, forKeyPath: "showIcon")
-        prefs.removeObserver(self, forKeyPath: "startAtLogin")
-        prefs.removeObserver(self, forKeyPath: "showEvents")
-        prefs.removeObserver(self, forKeyPath: "hideAllDayEvents")
-        prefs.removeObserver(self, forKeyPath: "calendarRegex")
+        for (key, _) in prefsWithDefaults {
+            prefs.removeObserver(self, forKeyPath: key)
+        }
 
     }
 }

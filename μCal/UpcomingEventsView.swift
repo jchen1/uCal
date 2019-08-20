@@ -56,10 +56,6 @@ class UpcomingEventsView: NSView {
 
         let pred = eventStore.predicateForEvents(withStart: calendar.date(from: components)!, end: nextWeek, calendars: calendars)
         
-        for c in calendars {
-            print(c.title)
-        }
-        
         events = eventStore.events(matching: pred).filter({ !hideAllDayEvents || !$0.isAllDay })
     }
     
