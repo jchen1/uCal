@@ -194,7 +194,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
     
-    func setupEventView(_ shouldSetup: Bool, error: NSError?) {
+    func setupEventView(_ shouldSetup: Bool, error: Error?) {
         if shouldSetup && prefs.bool(forKey: "showEvents") {
             eventsItem = NSMenuItem()
             eventsItem.view = getEV()
