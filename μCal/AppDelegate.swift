@@ -295,7 +295,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         numberedIcon.lockFocus();
         icon?.draw(at: NSZeroPoint, from: NSZeroRect, operation: NSCompositingOperation.sourceOver, fraction: 1.0)
-        dayString.draw(in: NSRect(origin: NSPoint(x: 0, y: -7), size: numberedIcon.size), withAttributes: attrs)
+        let y = NSScreen.main?.backingScaleFactor ?? 1.0 < 2.0 ? -6 : -7
+        
+        dayString.draw(in: NSRect(origin: NSPoint(x: 0, y: y), size: numberedIcon.size), withAttributes: attrs)
             
         numberedIcon.unlockFocus()
         
